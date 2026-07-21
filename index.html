@@ -1,576 +1,2715 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>BYOD Studios — Support Center</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+
 <style>
-  :root{
-    --bg:#0c0a08;
-    --bg-elevated:#151210;
-    --glass:rgba(255,255,255,0.035);
-    --glass-strong:rgba(255,255,255,0.06);
-    --border:rgba(212,162,76,0.16);
-    --border-bright:rgba(212,162,76,0.4);
-    --gold:#d4a24c;
-    --gold-bright:#f0c26a;
-    --text:#f2ede4;
-    --text-muted:#9a8f7d;
-    --text-dim:#6b6255;
-    --danger:#c1554a;
-    --success:#5f9e72;
-    --warn:#d4a24c;
-    --radius:14px;
-    --font-display:'Space Grotesk',sans-serif;
-    --font-body:'Inter',sans-serif;
-    --font-mono:'JetBrains Mono',monospace;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;}
-  body{
-    background:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(212,162,76,0.08), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(212,162,76,0.05), transparent 55%),
-      var(--bg);
-    color:var(--text);
-    font-family:var(--font-body);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:inherit;}
-  ::selection{background:rgba(212,162,76,0.35);}
 
-  /* ---------- HEADER ---------- */
-  header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    padding:18px 28px;
-    border-bottom:1px solid var(--border);
-    background:rgba(12,10,8,0.75);
-    backdrop-filter:blur(14px);
-    position:sticky;
-    top:0;
-    z-index:50;
-    flex-wrap:wrap;
-  }
-  .brand{display:flex;align-items:center;gap:12px;}
-  .brand-mark{
-    width:38px;height:38px;border-radius:10px;
-    background:linear-gradient(135deg,var(--gold),#8a6420);
-    display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-display);font-weight:700;color:#0c0a08;font-size:15px;
-    box-shadow:0 0 24px rgba(212,162,76,0.35);
-    flex-shrink:0;
-  }
-  .brand-text h1{
-    font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:0.2px;
-  }
-  .brand-text span{
-    font-size:11.5px;color:var(--text-muted);letter-spacing:0.6px;text-transform:uppercase;
-  }
-  .helpdesk-pill{
-    display:flex;flex-direction:column;align-items:flex-end;gap:2px;
-    padding:9px 16px;border-radius:999px;
-    background:var(--glass);border:1px solid var(--border);
-    text-align:right;
-  }
-  .helpdesk-pill .line1{
-    font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--gold-bright);
-    display:flex;align-items:center;gap:7px;
-  }
-  .helpdesk-pill .dot{
-    width:7px;height:7px;border-radius:50%;background:var(--success);
-    box-shadow:0 0 8px var(--success);
-    animation:pulse 2s infinite;
-  }
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-  .helpdesk-pill .line2{font-size:10.5px;color:var(--text-dim);}
+:root{
 
-  /* ---------- NAV ---------- */
-  nav{
-    display:flex;gap:6px;padding:14px 28px 0 28px;flex-wrap:wrap;
-  }
-  .tab-btn{
-    font-family:var(--font-body);font-weight:500;font-size:13.5px;color:var(--text-muted);
-    background:transparent;border:1px solid transparent;padding:10px 16px;border-radius:10px 10px 0 0;
-    cursor:pointer;transition:all .15s ease;display:flex;align-items:center;gap:8px;
-  }
-  .tab-btn:hover{color:var(--text);background:var(--glass);}
-  .tab-btn.active{
-    color:var(--gold-bright);background:var(--bg-elevated);
-    border:1px solid var(--border);border-bottom-color:var(--bg-elevated);
-  }
-  .tab-btn .count{
-    font-family:var(--font-mono);font-size:10.5px;background:rgba(212,162,76,0.15);
-    color:var(--gold);padding:1px 7px;border-radius:999px;
-  }
+--bg:#0c0a08;
+--panel:#151210;
+--panel2:#1b1713;
 
-  /* ---------- MAIN ---------- */
-  main{
-    flex:1;padding:0 28px 100px 28px;max-width:1100px;width:100%;margin:0 auto;
-  }
-  .panel{
-    background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);
-    padding:28px;margin-top:0;
-    box-shadow:0 20px 60px -30px rgba(0,0,0,0.6);
-  }
-  .view{display:none;animation:fadein .35s ease;}
-  .view.active{display:block;}
-  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+--gold:#d4a24c;
+--gold-light:#f0c26a;
 
-  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
-  .panel-head h2{font-family:var(--font-display);font-size:19px;font-weight:600;}
-  .panel-head p{font-size:12.5px;color:var(--text-muted);margin-top:3px;}
-  .btn{
-    font-family:var(--font-body);font-weight:600;font-size:13px;
-    background:linear-gradient(135deg,var(--gold-bright),var(--gold));
-    color:#1a1206;border:none;padding:10px 18px;border-radius:9px;cursor:pointer;
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(212,162,76,0.5);}
-  .btn:active{transform:translateY(0);}
-  .btn.secondary{
-    background:var(--glass);color:var(--text);border:1px solid var(--border);
-  }
-  .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+--text:#f2ede4;
+--muted:#9a8f7d;
 
-  /* ---------- TERMINAL / DIAGNOSTICS ---------- */
-  .terminal{
-    background:#08070600;border:1px solid var(--border);border-radius:12px;
-    font-family:var(--font-mono);font-size:12.5px;overflow:hidden;
-  }
-  .terminal-bar{
-    display:flex;align-items:center;gap:7px;padding:10px 14px;
-    background:var(--glass-strong);border-bottom:1px solid var(--border);
-  }
-  .terminal-bar .tdot{width:9px;height:9px;border-radius:50%;}
-  .terminal-body{padding:18px 20px;display:flex;flex-direction:column;gap:0;}
-  .diag-row{
-    display:grid;grid-template-columns:230px 1fr;gap:12px;padding:7px 0;
-    border-bottom:1px dashed rgba(255,255,255,0.05);
-    opacity:0;transform:translateX(-6px);
-    animation:reveal .35s ease forwards;
-  }
-  .diag-row:last-child{border-bottom:none;}
-  .diag-row .k{color:var(--text-dim);}
-  .diag-row .k::before{content:'> ';color:var(--gold);}
-  .diag-row .v{color:var(--gold-bright);word-break:break-all;}
-  @keyframes reveal{to{opacity:1;transform:translateX(0);}}
-  .cursor{
-    display:inline-block;width:7px;height:14px;background:var(--gold-bright);
-    animation:blink 1s step-end infinite;vertical-align:-2px;margin-left:2px;
-  }
-  @keyframes blink{50%{opacity:0;}}
-  .diag-hint{
-    margin-top:16px;font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:8px;
-  }
+--border:rgba(212,162,76,.25);
 
-  /* ---------- FORM ---------- */
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .field{display:flex;flex-direction:column;gap:6px;}
-  .field.full{grid-column:1/-1;}
-  .field label{font-size:12.5px;color:var(--text-muted);font-weight:500;}
-  .field input, .field select, .field textarea{
-    background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;
-    color:var(--text);padding:10px 13px;font-family:var(--font-body);font-size:13.5px;
-    outline:none;transition:border-color .15s ease;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--border-bright);}
-  .field textarea{resize:vertical;min-height:100px;}
-  .priority-row{display:flex;gap:8px;flex-wrap:wrap;}
-  .priority-chip{
-    font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--border);
-    background:var(--glass);cursor:pointer;color:var(--text-muted);transition:all .15s ease;
-  }
-  .priority-chip.selected{color:#1a1206;font-weight:600;}
-  .priority-chip[data-p="Niedrig"].selected{background:var(--success);border-color:var(--success);}
-  .priority-chip[data-p="Mittel"].selected{background:var(--gold);border-color:var(--gold);}
-  .priority-chip[data-p="Hoch"].selected{background:#d98a3d;border-color:#d98a3d;}
-  .priority-chip[data-p="Kritisch"].selected{background:var(--danger);border-color:var(--danger);color:#fff;}
-  .diag-attach{
-    margin-top:4px;font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:8px;
-    background:var(--glass);border:1px solid var(--border);border-radius:9px;padding:10px 13px;
-  }
-  .diag-attach svg{flex-shrink:0;}
-  .form-actions{display:flex;align-items:center;gap:12px;margin-top:22px;}
-  .form-status{font-size:12.5px;color:var(--text-muted);}
-  .form-status.ok{color:var(--success);}
-  .form-status.err{color:var(--danger);}
+--success:#5f9e72;
+--danger:#c1554a;
 
-  /* ---------- TICKETS LIST ---------- */
-  .ticket-row{
-    display:grid;grid-template-columns:120px 1fr 110px 110px 130px;gap:14px;align-items:center;
-    padding:14px 16px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;
-    background:var(--glass);
-  }
-  .ticket-row .tid{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);}
-  .ticket-row .tsubject{font-size:13.5px;font-weight:500;}
-  .ticket-row .tmeta{font-size:11px;color:var(--text-muted);margin-top:2px;}
-  .badge{
-    font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;text-align:center;
-  }
-  .badge.open{background:rgba(212,162,76,0.15);color:var(--gold-bright);}
-  .badge.prio-Niedrig{background:rgba(95,158,114,0.15);color:var(--success);}
-  .badge.prio-Mittel{background:rgba(212,162,76,0.15);color:var(--gold-bright);}
-  .badge.prio-Hoch{background:rgba(217,138,61,0.18);color:#e0a15c;}
-  .badge.prio-Kritisch{background:rgba(193,85,74,0.18);color:#e37e73;}
-  .empty-state{
-    text-align:center;padding:50px 20px;color:var(--text-dim);
-  }
-  .empty-state svg{margin-bottom:14px;opacity:0.5;}
-  .empty-state p{font-size:13.5px;}
+}
 
-  /* ---------- FOOTER ---------- */
-  footer{
-    position:fixed;bottom:0;left:0;right:0;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:12px 22px;font-size:11.5px;color:var(--text-dim);
-    background:rgba(12,10,8,0.85);backdrop-filter:blur(10px);
-    border-top:1px solid var(--border);z-index:40;
-  }
-  footer .credit{font-family:var(--font-mono);}
-  footer .credit b{color:var(--gold);font-weight:600;}
-  footer .status-line{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);}
-  footer .status-line .dot{width:6px;height:6px;border-radius:50%;background:var(--success);}
 
-  @media(max-width:720px){
-    .form-grid{grid-template-columns:1fr;}
-    .diag-row{grid-template-columns:150px 1fr;font-size:11px;}
-    .ticket-row{grid-template-columns:1fr;gap:6px;}
-    header{padding:14px 16px;}
-    main{padding:0 14px 110px 14px;}
-    nav{padding:12px 14px 0 14px;}
-    footer{flex-direction:column;gap:4px;padding:10px 14px;text-align:center;}
-  }
+
+*{
+
+box-sizing:border-box;
+margin:0;
+padding:0;
+
+}
+
+
+
+body{
+
+background:
+
+radial-gradient(
+ellipse 900px 500px at 10% -10%,
+rgba(212,162,76,.12),
+transparent
+),
+
+var(--bg);
+
+color:var(--text);
+
+font-family:Inter,Arial,sans-serif;
+
+min-height:100vh;
+
+}
+
+
+
+
+header{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:18px 35px;
+
+border-bottom:1px solid var(--border);
+
+background:rgba(12,10,8,.85);
+
+backdrop-filter:blur(15px);
+
+position:sticky;
+
+top:0;
+
+z-index:10;
+
+}
+
+
+
+
+.brand{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+
+
+.logo{
+
+height:42px;
+
+width:42px;
+
+border-radius:12px;
+
+background:linear-gradient(
+135deg,
+var(--gold-light),
+var(--gold)
+);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-weight:700;
+
+color:#100b05;
+
+}
+
+
+
+.brand h1{
+
+font-size:20px;
+
+}
+
+
+
+.brand span{
+
+font-size:12px;
+
+color:var(--muted);
+
+text-transform:uppercase;
+
+}
+
+
+
+
+.status{
+
+border:1px solid var(--border);
+
+border-radius:50px;
+
+padding:10px 18px;
+
+font-family:"JetBrains Mono";
+
+font-size:13px;
+
+color:var(--gold-light);
+
+}
+
+
+
+
+nav{
+
+display:flex;
+
+gap:8px;
+
+padding:20px 35px 0;
+
+}
+
+
+
+
+.nav-btn{
+
+background:none;
+
+border:1px solid transparent;
+
+color:var(--muted);
+
+padding:12px 18px;
+
+cursor:pointer;
+
+border-radius:10px 10px 0 0;
+
+}
+
+
+
+.nav-btn.active{
+
+background:var(--panel);
+
+border-color:var(--border);
+
+color:var(--gold-light);
+
+}
+
+
+
+
+main{
+
+max-width:1100px;
+
+margin:auto;
+
+padding:25px 35px 120px;
+
+}
+
+
+
+
+.panel{
+
+background:var(--panel);
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+padding:30px;
+
+box-shadow:
+
+0 20px 50px rgba(0,0,0,.3);
+
+}
+
+
+
+
+.view{
+
+display:none;
+
+}
+
+
+
+.view.active{
+
+display:block;
+
+}
+
+
+
+
+label{
+
+display:block;
+
+font-size:13px;
+
+color:var(--muted);
+
+margin-bottom:7px;
+
+}
+
+
+
+
+input,
+textarea,
+select{
+
+
+width:100%;
+
+background:rgba(255,255,255,.03);
+
+border:1px solid var(--border);
+
+border-radius:9px;
+
+padding:12px;
+
+color:var(--text);
+
+font-size:14px;
+
+outline:none;
+
+}
+
+
+
+input:focus,
+textarea:focus,
+select:focus{
+
+border-color:var(--gold);
+
+}
+
+
+
+
+.btn{
+
+background:linear-gradient(
+135deg,
+var(--gold-light),
+var(--gold)
+);
+
+border:none;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+font-weight:600;
+
+cursor:pointer;
+
+color:#140d04;
+
+}
+
+
+
+.btn:hover{
+
+transform:translateY(-1px);
+
+}
+
+
+
+
+
+footer{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+background:rgba(12,10,8,.9);
+
+border-top:1px solid var(--border);
+
+padding:12px;
+
+text-align:center;
+
+font-size:12px;
+
+color:var(--muted);
+
+}
+
+
+
+
 </style>
+
 </head>
 <body>
 
+
 <header>
-  <div class="brand">
-    <div class="brand-mark">BS</div>
-    <div class="brand-text">
-      <h1>BYOD Studios</h1>
-      <span>Support Center</span>
-    </div>
-  </div>
-  <div class="helpdesk-pill">
-    <div class="line1"><span class="dot"></span>BYOD UserHelpDesk: +49 1590 1993688</div>
-    <div class="line2">Es gelten die jeweiligen Tarifpreise</div>
-  </div>
+
+
+<div class="brand">
+
+<div class="logo">
+BS
+</div>
+
+
+<div>
+
+<h1>
+BYOD Studios
+</h1>
+
+<span>
+UserHelpDesk
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="status">
+
+● Support Center bereit
+
+</div>
+
+
 </header>
 
+
+
+
+
 <nav>
-  <button class="tab-btn active" data-view="diagnose">🖥️ Systemdiagnose</button>
-  <button class="tab-btn" data-view="ticket">✉️ Ticket erstellen</button>
-  <button class="tab-btn" data-view="tickets">📋 Meine Tickets <span class="count" id="ticketCount">0</span></button>
+
+
+<button class="nav-btn active" data-target="diagnose">
+
+🖥️ Systemdiagnose
+
+</button>
+
+
+<button class="nav-btn" data-target="ticket">
+
+✉️ Ticket erstellen
+
+</button>
+
+
+<button class="nav-btn" data-target="tickets">
+
+📋 Meine Tickets
+
+</button>
+
+
 </nav>
+
+
+
+
 
 <main>
 
-  <!-- DIAGNOSE VIEW -->
-  <section class="view active" id="view-diagnose">
-    <div class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>Systemdiagnose</h2>
-          <p>Live ausgelesene Geräteinformationen dieses Computers — wird automatisch an jedes Ticket angehängt.</p>
-        </div>
-        <button class="btn secondary" onclick="runDiagnostics(true)">↻ Erneut scannen</button>
-      </div>
-      <div class="terminal">
-        <div class="terminal-bar">
-          <div class="tdot" style="background:#e0625a"></div>
-          <div class="tdot" style="background:#e0b25a"></div>
-          <div class="tdot" style="background:#5ec481"></div>
-          <span style="color:var(--text-dim);margin-left:8px;">system-scan.sh — byod-support-center</span>
-        </div>
-        <div class="terminal-body" id="diagBody"></div>
-      </div>
-      <div class="diag-hint">Diese Daten werden lokal in deinem Browser ausgelesen und niemals ohne dein Ticket versendet.</div>
-    </div>
-  </section>
 
-  <!-- TICKET VIEW -->
-  <section class="view" id="view-ticket">
-    <div class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>Neues Ticket erstellen</h2>
-          <p>Unser Team meldet sich in der Regel innerhalb von 24 Stunden.</p>
-        </div>
-      </div>
-      <form id="ticketForm">
-        <div class="form-grid">
-          <div class="field">
-            <label for="f_name">Name</label>
-            <input type="text" id="f_name" required placeholder="Max Mustermann">
-          </div>
-          <div class="field">
-            <label for="f_email">E-Mail-Adresse</label>
-            <input type="email" id="f_email" required placeholder="max@beispiel.de">
-          </div>
-          <div class="field">
-            <label for="f_category">Kategorie</label>
-            <select id="f_category">
-              <option>Hardware</option>
-              <option>Software</option>
-              <option>Netzwerk</option>
-              <option>Zugang / Account</option>
-              <option>Sonstiges</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Priorität</label>
-            <div class="priority-row" id="priorityRow">
-              <div class="priority-chip" data-p="Niedrig">Niedrig</div>
-              <div class="priority-chip selected" data-p="Mittel">Mittel</div>
-              <div class="priority-chip" data-p="Hoch">Hoch</div>
-              <div class="priority-chip" data-p="Kritisch">Kritisch</div>
-            </div>
-          </div>
-          <div class="field full">
-            <label for="f_subject">Betreff</label>
-            <input type="text" id="f_subject" required placeholder="Kurze Beschreibung des Problems">
-          </div>
-          <div class="field full">
-            <label for="f_message">Beschreibung</label>
-            <textarea id="f_message" required placeholder="Was ist passiert? Was hast du bereits versucht?"></textarea>
-          </div>
-          <div class="field full">
-            <div class="diag-attach">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
-              Systemdiagnose wird automatisch an dieses Ticket angehängt.
-            </div>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="btn" id="submitBtn">Ticket senden</button>
-          <span class="form-status" id="formStatus"></span>
-        </div>
-      </form>
-    </div>
-  </section>
 
-  <!-- TICKETS LIST VIEW -->
-  <section class="view" id="view-tickets">
-    <div class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>Meine Tickets</h2>
-          <p>Übersicht deiner in diesem Browser erstellten Support-Anfragen.</p>
-        </div>
-      </div>
-      <div id="ticketsList"></div>
-    </div>
-  </section>
+<div class="panel" style="margin-bottom:20px;">
+
+
+<label>
+Transaktion eingeben:
+</label>
+
+
+<input 
+id="transactionInput"
+placeholder="z.B. /admin">
+
+
+</div>
+
+
+
+
+
+<!-- DIAGNOSE -->
+
+
+<section 
+class="view active"
+id="diagnose">
+
+
+<div class="panel">
+
+
+<h2>
+Systemdiagnose
+</h2>
+
+
+<p style="color:var(--muted);margin-top:10px;">
+
+Automatische Geräteanalyse für Supportanfragen.
+
+</p>
+
+
+
+<div 
+id="diagnosticOutput"
+style="margin-top:25px;font-family:'JetBrains Mono';color:var(--gold-light);">
+
+
+Warte auf Analyse...
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- TICKET ERSTELLEN -->
+
+
+<section 
+class="view"
+id="ticket">
+
+
+<div class="panel">
+
+
+<h2>
+Neues Ticket erstellen
+</h2>
+
+
+<p style="color:var(--muted);margin:10px 0 25px;">
+
+Beschreiben Sie Ihr Problem möglichst genau.
+
+</p>
+
+
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+
+
+<div>
+
+<label>
+Name
+</label>
+
+<input id="name">
+
+</div>
+
+
+
+
+<div>
+
+<label>
+E-Mail
+</label>
+
+<input id="email" type="email">
+
+</div>
+
+
+
+
+
+<div>
+
+<label>
+Kategorie
+</label>
+
+<select id="category">
+
+<option>
+Hardware
+</option>
+
+<option>
+Software
+</option>
+
+<option>
+Netzwerk
+</option>
+
+<option>
+Account
+</option>
+
+<option>
+Sonstiges
+</option>
+
+</select>
+
+</div>
+
+
+
+
+
+<div>
+
+<label>
+Priorität
+</label>
+
+<select id="priority">
+
+<option>
+Niedrig
+</option>
+
+<option selected>
+Mittel
+</option>
+
+<option>
+Hoch
+</option>
+
+<option>
+Kritisch
+</option>
+
+</select>
+
+</div>
+
+
+
+
+<div style="grid-column:1/-1;">
+
+
+<label>
+Betreff
+</label>
+
+
+<input id="subject">
+
+
+</div>
+
+
+
+
+
+<div style="grid-column:1/-1;">
+
+
+<label>
+Beschreibung
+</label>
+
+
+<textarea 
+id="description"
+rows="6"></textarea>
+
+
+</div>
+
+
+
+</div>
+
+
+
+<br>
+
+
+<button 
+class="btn"
+id="createTicket">
+
+
+Ticket senden
+
+</button>
+
+
+
+<p 
+id="ticketResult"
+style="margin-top:15px;color:var(--muted);">
+
+</p>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- MEINE TICKETS -->
+
+
+<section
+class="view"
+id="tickets">
+
+
+<div class="panel">
+
+
+<h2>
+Meine Tickets
+</h2>
+
+
+<p style="color:var(--muted);margin:10px 0 25px;">
+
+Ihre Supportanfragen
+
+</p>
+
+
+
+<div id="ticketList">
+
+
+Noch keine Tickets geladen.
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ADMIN -->
+
+
+<section
+class="view"
+id="admin">
+
+
+<div class="panel">
+
+
+<h2>
+Administrator
+
+</h2>
+
+
+<p style="color:var(--muted);margin:10px 0 20px;">
+
+Geschützter Verwaltungsbereich
+
+</p>
+
+
+
+
+<label>
+Passwort
+</label>
+
+
+<input 
+type="password"
+id="adminPassword">
+
+
+
+<br><br>
+
+
+<button 
+class="btn"
+id="adminLogin">
+
+Anmelden
+
+</button>
+
+
+
+<p 
+id="adminMessage"
+style="margin-top:15px;">
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+<div 
+class="panel"
+id="adminDashboard"
+style="display:none;margin-top:20px;">
+
+
+<h2>
+Ticketverwaltung
+
+</h2>
+
+
+<div id="adminTickets">
+
+</div>
+
+
+
+<hr style="margin:30px 0;border-color:var(--border);">
+
+
+
+<h2>
+Versionsverwaltung
+
+</h2>
+
+
+<br>
+
+
+<label>
+Version
+</label>
+
+
+<input id="version">
+
+
+<br><br>
+
+
+<button class="btn" id="saveVersion">
+
+Speichern
+
+</button>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
 
 </main>
 
+
+
+
+
 <footer>
-  <div class="credit">Powered by <b>Louis Schwickert</b> — Version 1.0.0</div>
-  <div class="status-line"><span class="dot"></span>Support Center bereit</div>
+
+Powered by <b>Louis Schwickert</b> — Version <span id="versionText">1.0.0</span>
+
 </footer>
+<script>
+
+
+/* =============================
+   NAVIGATION
+============================= */
+
+
+const buttons =
+document.querySelectorAll(".nav-btn");
+
+
+const views =
+document.querySelectorAll(".view");
+
+
+
+buttons.forEach(button=>{
+
+
+button.addEventListener("click",()=>{
+
+
+const target =
+button.dataset.target;
+
+
+
+views.forEach(view=>{
+
+view.classList.remove("active");
+
+});
+
+
+
+buttons.forEach(btn=>{
+
+btn.classList.remove("active");
+
+});
+
+
+
+document
+.getElementById(target)
+.classList.add("active");
+
+
+button.classList.add("active");
+
+
+});
+
+});
+
+
+
+
+
+
+
+/* =============================
+   TRANSAKTIONEN
+============================= */
+
+
+document
+.getElementById("transactionInput")
+.addEventListener("keydown",
+function(e){
+
+
+if(e.key !== "Enter")
+return;
+
+
+
+const command =
+this.value.trim();
+
+
+
+if(command === "/admin"){
+
+
+
+views.forEach(view=>{
+
+view.classList.remove("active");
+
+});
+
+
+
+document
+.getElementById("admin")
+.classList.add("active");
+
+
+
+buttons.forEach(btn=>{
+
+btn.classList.remove("active");
+
+});
+
+
+}
+
+
+
+this.value="";
+
+
+});
+
+
+
+
+
+
+
+
+
+/* =============================
+   SYSTEMDIAGNOSE
+============================= */
+
+
+function runDiagnostic(){
+
+
+const output =
+document.getElementById(
+"diagnosticOutput"
+);
+
+
+
+output.innerHTML = `
+
+Plattform:
+${navigator.platform}
+
+<br>
+
+Browser:
+${navigator.userAgent}
+
+<br>
+
+Sprache:
+${navigator.language}
+
+<br>
+
+Auflösung:
+${screen.width} x ${screen.height}
+
+<br>
+
+Online:
+${navigator.onLine ? "Ja":"Nein"}
+
+<br>
+
+Zeitzone:
+${Intl.DateTimeFormat().resolvedOptions().timeZone}
+
+`;
+
+
+
+}
+
+
+
+runDiagnostic();
+
+
+
+
+
+
+
+
+/* =============================
+   TICKET SYSTEM
+============================= */
+
+
+
+function createTicketID(){
+
+
+const now =
+new Date();
+
+
+return (
+
+"BYOD-"
+
++
+
+now.getFullYear()
+
++
+
+String(
+now.getMonth()+1
+)
+.padStart(2,"0")
+
++
+
+String(
+now.getDate()
+)
+.padStart(2,"0")
+
++
+
+"-"
+
++
+
+Math.floor(
+1000+
+Math.random()*9000
+)
+
+);
+
+
+}
+
+
+
+
+
+function getLocalTickets(){
+
+
+return JSON.parse(
+
+localStorage.getItem(
+"byodTickets"
+)
+
+||
+"[]"
+
+);
+
+
+}
+
+
+
+
+
+function saveLocalTickets(data){
+
+
+localStorage.setItem(
+
+"byodTickets",
+
+JSON.stringify(data)
+
+);
+
+
+}
+
+
+
+
+
+
+
+/* =============================
+   TICKET ERSTELLEN
+============================= */
+
+
+document
+.getElementById("createTicket")
+.addEventListener("click",()=>{
+
+
+
+const ticket = {
+
+
+id:
+createTicketID(),
+
+
+name:
+document
+.getElementById("name")
+.value,
+
+
+email:
+document
+.getElementById("email")
+.value,
+
+
+category:
+document
+.getElementById("category")
+.value,
+
+
+priority:
+document
+.getElementById("priority")
+.value,
+
+
+subject:
+document
+.getElementById("subject")
+.value,
+
+
+description:
+document
+.getElementById("description")
+.value,
+
+
+status:
+"Offen",
+
+
+created:
+new Date()
+.toISOString()
+
+
+
+};
+
+
+
+
+
+let tickets =
+getLocalTickets();
+
+
+
+tickets.push(ticket);
+
+
+
+saveLocalTickets(tickets);
+
+
+
+
+
+document
+.getElementById("ticketResult")
+.innerHTML =
+
+"✓ Ticket erstellt: "
++
+ticket.id;
+
+
+
+loadMyTickets();
+
+
+});
+
+
+
+
+
+
+
+/* =============================
+   MEINE TICKETS
+============================= */
+
+
+function loadMyTickets(){
+
+
+const box =
+document.getElementById(
+"ticketList"
+);
+
+
+
+const tickets =
+getLocalTickets();
+
+
+
+if(tickets.length===0){
+
+
+box.innerHTML =
+"Keine Tickets vorhanden.";
+
+
+return;
+
+
+}
+
+
+
+box.innerHTML="";
+
+
+
+tickets
+.reverse()
+.forEach(ticket=>{
+
+
+
+box.innerHTML += `
+
+<div style="
+border:1px solid var(--border);
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+">
+
+
+<h3 style="color:var(--gold-light);">
+
+${ticket.id}
+
+</h3>
+
+
+<p>
+
+${ticket.subject}
+
+</p>
+
+
+<p>
+
+Status:
+<b>${ticket.status}</b>
+
+</p>
+
+
+</div>
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+loadMyTickets();
+
+
+
+
+
+</script>
+<script>
+
+
+/* =============================
+   ADMIN SYSTEM
+============================= */
+
+
+const ADMIN_PASSWORD = 
+"MLiLUE16012009!";
+
+
+
+
+
+document
+.getElementById("adminLogin")
+.addEventListener("click",()=>{
+
+
+
+const password =
+document
+.getElementById("adminPassword")
+.value;
+
+
+
+if(password !== ADMIN_PASSWORD){
+
+
+document
+.getElementById("adminMessage")
+.innerHTML =
+"❌ Falsches Passwort";
+
+
+return;
+
+
+}
+
+
+
+
+document
+.getElementById("adminDashboard")
+.style.display="block";
+
+
+
+document
+.getElementById("adminMessage")
+.innerHTML =
+"✓ Anmeldung erfolgreich";
+
+
+
+loadAdminTickets();
+
+
+});
+
+
+
+
+
+
+
+
+
+/* =============================
+   ADMIN TICKETS
+============================= */
+
+
+function loadAdminTickets(){
+
+
+const box =
+document.getElementById(
+"adminTickets"
+);
+
+
+
+const tickets =
+getLocalTickets();
+
+
+
+if(tickets.length===0){
+
+
+box.innerHTML =
+"Keine Tickets vorhanden.";
+
+
+return;
+
+
+}
+
+
+
+box.innerHTML="";
+
+
+
+
+tickets
+.reverse()
+.forEach(ticket=>{
+
+
+
+box.innerHTML += `
+
+
+<div style="
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+padding:18px;
+
+margin-top:15px;
+
+">
+
+
+
+<h3 style="
+color:var(--gold-light);
+">
+
+${ticket.id}
+
+</h3>
+
+
+
+<p>
+
+<b>Name:</b>
+${ticket.name}
+
+</p>
+
+
+<p>
+
+<b>E-Mail:</b>
+${ticket.email}
+
+</p>
+
+
+
+<p>
+
+<b>Problem:</b>
+${ticket.subject}
+
+</p>
+
+
+
+<br>
+
+
+<label>
+Status ändern
+</label>
+
+
+<select
+onchange="
+changeTicketStatus(
+'${ticket.id}',
+this.value
+)
+">
+
+
+<option 
+${ticket.status==="Offen"?"selected":""}>
+
+Offen
+
+</option>
+
+
+
+<option
+${ticket.status==="In Bearbeitung"?"selected":""}>
+
+In Bearbeitung
+
+</option>
+
+
+
+<option
+${ticket.status==="Geschlossen"?"selected":""}>
+
+Geschlossen
+
+</option>
+
+
+</select>
+
+
+
+<br><br>
+
+
+
+<button 
+class="btn"
+onclick="
+deleteTicket(
+'${ticket.id}'
+)
+">
+
+
+Ticket löschen
+
+
+</button>
+
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   STATUS ÄNDERN
+============================= */
+
+
+function changeTicketStatus(id,status){
+
+
+
+let tickets =
+getLocalTickets();
+
+
+
+tickets =
+tickets.map(ticket=>{
+
+
+if(ticket.id===id){
+
+
+ticket.status=status;
+
+
+}
+
+
+return ticket;
+
+
+});
+
+
+
+saveLocalTickets(tickets);
+
+
+
+loadAdminTickets();
+
+loadMyTickets();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   TICKET LÖSCHEN
+============================= */
+
+
+function deleteTicket(id){
+
+
+
+let tickets =
+getLocalTickets();
+
+
+
+tickets =
+tickets.filter(ticket=>{
+
+
+return ticket.id !== id;
+
+
+});
+
+
+
+saveLocalTickets(tickets);
+
+
+
+loadAdminTickets();
+
+loadMyTickets();
+
+
+
+}
+
+
+
+
+
+
+
+
+/* =============================
+   VERSION
+============================= */
+
+
+document
+.getElementById("saveVersion")
+.addEventListener("click",()=>{
+
+
+const version =
+document
+.getElementById("version")
+.value;
+
+
+
+if(version.trim()==="")
+return;
+
+
+
+document
+.getElementById("versionText")
+.innerHTML =
+version;
+
+
+
+localStorage.setItem(
+"byodVersion",
+version
+);
+
+
+
+});
+
+
+
+
+
+const savedVersion =
+localStorage.getItem(
+"byodVersion"
+);
+
+
+
+if(savedVersion){
+
+
+document
+.getElementById("versionText")
+.innerHTML =
+savedVersion;
+
+
+}
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
-  const SUPPORT_EMAIL = 'schwickert.louis@outlook.de';
 
-  /* ---------- TAB NAVIGATION ---------- */
-  document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('view-'+btn.dataset.view).classList.add('active');
-      if(btn.dataset.view==='tickets') renderTicketsList();
-    });
-  });
 
-  /* ---------- SYSTEM DIAGNOSTICS ---------- */
-  let systemInfo = {};
+/* =============================
+   SUPABASE VERBINDUNG
+============================= */
 
-  function collectSystemInfo(){
-    const nav = navigator;
-    const scr = screen;
-    const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
-    return {
-      'Plattform': nav.platform || 'Unbekannt',
-      'Browser (User Agent)': nav.userAgent,
-      'Sprache': nav.language || 'Unbekannt',
-      'Weitere Sprachen': (nav.languages||[]).join(', ') || '—',
-      'Bildschirmauflösung': scr.width + ' × ' + scr.height + ' px',
-      'Verfügbarer Bereich': scr.availWidth + ' × ' + scr.availHeight + ' px',
-      'Farbtiefe': scr.colorDepth + '-bit',
-      'Pixelverhältnis': window.devicePixelRatio,
-      'Prozessorkerne (logisch)': nav.hardwareConcurrency || 'Nicht verfügbar',
-      'Arbeitsspeicher (geschätzt)': nav.deviceMemory ? nav.deviceMemory + ' GB' : 'Nicht verfügbar',
-      'Netzwerktyp': conn && conn.effectiveType ? conn.effectiveType : 'Nicht verfügbar',
-      'Online-Status': nav.onLine ? 'Verbunden' : 'Offline',
-      'Cookies aktiviert': nav.cookieEnabled ? 'Ja' : 'Nein',
-      'Touch-Unterstützung': ('ontouchstart' in window) ? 'Ja' : 'Nein',
-      'Zeitzone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-      'Lokale Zeit': new Date().toLocaleString('de-DE'),
-      'Do Not Track': nav.doNotTrack || 'Nicht gesetzt',
-      'Öffentliche IP-Adresse': 'wird geladen…'
-    };
-  }
 
-  function renderDiagnostics(info){
-    const body = document.getElementById('diagBody');
-    body.innerHTML = '';
-    let i = 0;
-    Object.entries(info).forEach(([k,v])=>{
-      const row = document.createElement('div');
-      row.className = 'diag-row';
-      row.style.animationDelay = (i*45)+'ms';
-      row.innerHTML = `<div class="k">${k}</div><div class="v">${v}${i===Object.keys(info).length-1?'<span class="cursor"></span>':''}</div>`;
-      body.appendChild(row);
-      i++;
-    });
-  }
+const SUPABASE_URL =
 
-  async function runDiagnostics(rescan){
-    systemInfo = collectSystemInfo();
-    renderDiagnostics(systemInfo);
-    try{
-      const res = await fetch('https://api.ipify.org?format=json');
-      const data = await res.json();
-      systemInfo['Öffentliche IP-Adresse'] = data.ip || 'Nicht verfügbar';
-    }catch(e){
-      systemInfo['Öffentliche IP-Adresse'] = 'Nicht verfügbar';
-    }
-    renderDiagnostics(systemInfo);
-  }
-  runDiagnostics();
+"https://oeyhdfbdgrrkbjhpmcrt.supabase.co";
 
-  /* ---------- PRIORITY CHIPS ---------- */
-  let selectedPriority = 'Mittel';
-  document.querySelectorAll('.priority-chip').forEach(chip=>{
-    chip.addEventListener('click', ()=>{
-      document.querySelectorAll('.priority-chip').forEach(c=>c.classList.remove('selected'));
-      chip.classList.add('selected');
-      selectedPriority = chip.dataset.p;
-    });
-  });
 
-  /* ---------- TICKET STORAGE ---------- */
-  function getTickets(){
-    return JSON.parse(localStorage.getItem('byod_tickets') || '[]');
-  }
-  function saveTickets(tickets){
-    localStorage.setItem('byod_tickets', JSON.stringify(tickets));
-    document.getElementById('ticketCount').textContent = tickets.length;
-  }
-  function generateTicketId(){
-    const d = new Date();
-    const datePart = d.getFullYear().toString() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
-    const rand = Math.floor(1000 + Math.random()*9000);
-    return `BYOD-${datePart}-${rand}`;
-  }
 
-  function renderTicketsList(){
-    const tickets = getTickets();
-    const container = document.getElementById('ticketsList');
-    if(tickets.length === 0){
-      container.innerHTML = `
-        <div class="empty-state">
-          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          <p>Noch keine Tickets erstellt. Wechsle zu „Ticket erstellen“, um dein erstes Anliegen zu senden.</p>
-        </div>`;
-      return;
-    }
-    container.innerHTML = tickets.slice().reverse().map(t => `
-      <div class="ticket-row">
-        <div class="tid">${t.id}</div>
-        <div>
-          <div class="tsubject">${escapeHtml(t.subject)}</div>
-          <div class="tmeta">${t.category} · ${new Date(t.createdAt).toLocaleString('de-DE')}</div>
-        </div>
-        <div class="badge prio-${t.priority}">${t.priority}</div>
-        <div class="badge open">Offen</div>
-        <div style="font-size:11.5px;color:var(--text-dim);text-align:right;">${escapeHtml(t.email)}</div>
-      </div>
-    `).join('');
-  }
+const SUPABASE_KEY =
 
-  function escapeHtml(str){
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
-  }
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leWhkZmJkZ3Jya2JqaHBtY3J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2NDIzNzUsImV4cCI6MjEwMDIxODM3NX0.2G0needE17Kosb7f8YybUHnvyT5q29t4tferQzHCnAA";
 
-  /* ---------- FORM SUBMIT ---------- */
-  const form = document.getElementById('ticketForm');
-  const statusEl = document.getElementById('formStatus');
-  const submitBtn = document.getElementById('submitBtn');
 
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    submitBtn.disabled = true;
-    statusEl.className = 'form-status';
-    statusEl.textContent = 'Ticket wird gesendet …';
 
-    const name = document.getElementById('f_name').value.trim();
-    const email = document.getElementById('f_email').value.trim();
-    const category = document.getElementById('f_category').value;
-    const subject = document.getElementById('f_subject').value.trim();
-    const message = document.getElementById('f_message').value.trim();
-    const ticketId = generateTicketId();
+const database =
 
-    const diagText = Object.entries(systemInfo).map(([k,v])=>`${k}: ${v}`).join('\n');
+supabase.createClient(
 
-    const payload = {
-      _subject: `[BYOD Support] Neues Ticket ${ticketId} — ${subject}`,
-      Ticket_ID: ticketId,
-      Name: name,
-      Email: email,
-      Kategorie: category,
-      Prioritaet: selectedPriority,
-      Betreff: subject,
-      Nachricht: message,
-      Systemdiagnose: diagText,
-      _template: 'table',
-      _captcha: 'false'
-    };
+SUPABASE_URL,
 
-    try{
-      const res = await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+SUPABASE_KEY
 
-      if(!res.ok) throw new Error('Versand fehlgeschlagen');
+);
 
-      const tickets = getTickets();
-      tickets.push({
-        id: ticketId, name, email, category, priority: selectedPriority,
-        subject, message, createdAt: new Date().toISOString()
-      });
-      saveTickets(tickets);
 
-      statusEl.className = 'form-status ok';
-      statusEl.textContent = `✓ Ticket ${ticketId} wurde gesendet.`;
-      form.reset();
-      selectedPriority = 'Mittel';
-      document.querySelectorAll('.priority-chip').forEach(c=>c.classList.remove('selected'));
-      document.querySelector('.priority-chip[data-p="Mittel"]').classList.add('selected');
-    }catch(err){
-      statusEl.className = 'form-status err';
-      statusEl.textContent = '✗ Senden fehlgeschlagen. Bitte versuche es erneut oder rufe den Helpdesk an.';
-    }finally{
-      submitBtn.disabled = false;
-    }
-  });
 
-  saveTickets(getTickets());
+
+
+
+
+
+
+/* =============================
+   SUPABASE TICKET ERSTELLEN
+============================= */
+
+
+async function uploadTicket(ticket){
+
+
+
+const {data,error}=
+
+await database
+
+.from("tickets")
+
+.insert([ticket]);
+
+
+
+
+
+if(error){
+
+
+console.error(error);
+
+
+document
+.getElementById(
+"ticketResult"
+)
+.innerHTML =
+
+"❌ Fehler beim Speichern";
+
+
+return false;
+
+
+}
+
+
+
+return true;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   ALLE TICKETS LADEN
+============================= */
+
+
+async function getCloudTickets(){
+
+
+
+const {data,error}=
+
+await database
+
+.from("tickets")
+
+.select("*")
+
+.order(
+
+"created",
+
+{
+
+ascending:false
+
+}
+
+);
+
+
+
+
+if(error){
+
+
+console.error(error);
+
+
+return [];
+
+
+}
+
+
+
+return data;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   MEINE TICKETS CLOUD
+============================= */
+
+
+async function loadCloudTickets(){
+
+
+
+const tickets =
+await getCloudTickets();
+
+
+
+const box =
+document.getElementById(
+"ticketList"
+);
+
+
+
+box.innerHTML="";
+
+
+
+if(tickets.length===0){
+
+
+box.innerHTML =
+"Keine Tickets vorhanden.";
+
+
+return;
+
+
+}
+
+
+
+
+
+tickets.forEach(ticket=>{
+
+
+
+box.innerHTML += `
+
+
+<div style="
+
+border:1px solid var(--border);
+
+padding:15px;
+
+border-radius:10px;
+
+margin-bottom:10px;
+
+">
+
+
+<h3 style="color:var(--gold-light)">
+
+${ticket.id}
+
+</h3>
+
+
+<p>
+
+${ticket.subject}
+
+</p>
+
+
+
+<p>
+
+Status:
+<b>${ticket.status}</b>
+
+</p>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   ADMIN CLOUD LISTE
+============================= */
+
+
+async function loadCloudAdmin(){
+
+
+
+const tickets =
+await getCloudTickets();
+
+
+
+const box =
+document.getElementById(
+"adminTickets"
+);
+
+
+
+box.innerHTML="";
+
+
+
+
+
+tickets.forEach(ticket=>{
+
+
+
+box.innerHTML += `
+
+
+<div style="
+
+border:1px solid var(--border);
+
+padding:18px;
+
+border-radius:12px;
+
+margin-top:15px;
+
+">
+
+
+
+<h3 style="color:var(--gold-light)">
+
+${ticket.id}
+
+</h3>
+
+
+<p>
+
+${ticket.name}
+
+</p>
+
+
+<p>
+
+${ticket.subject}
+
+</p>
+
+
+
+<select
+
+onchange="cloudStatus('${ticket.id}',this.value)">
+
+
+<option>
+Offen
+</option>
+
+
+<option>
+In Bearbeitung
+</option>
+
+
+<option>
+Geschlossen
+</option>
+
+
+
+</select>
+
+
+
+<button
+
+class="btn"
+
+onclick="cloudDelete('${ticket.id}')">
+
+Löschen
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   STATUS CLOUD
+============================= */
+
+
+async function cloudStatus(id,status){
+
+
+
+await database
+
+.from("tickets")
+
+.update({
+
+status:status
+
+})
+
+.eq(
+
+"id",
+
+id
+
+);
+
+
+
+loadCloudAdmin();
+
+loadCloudTickets();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   LÖSCHEN CLOUD
+============================= */
+
+
+async function cloudDelete(id){
+
+
+
+await database
+
+.from("tickets")
+
+.delete()
+
+.eq(
+
+"id",
+
+id
+
+);
+
+
+
+loadCloudAdmin();
+
+loadCloudTickets();
+
+
+
+}
+
+
+
+
+
+
+
 </script>
+<script>
 
-</body>
-</html>
+
+/* =============================
+   NEUE TICKET ERSTELLUNG CLOUD
+============================= */
+
+
+document
+.getElementById("createTicket")
+.onclick = async function(){
+
+
+
+const ticket = {
+
+
+id:
+createTicketID(),
+
+
+
+name:
+document
+.getElementById("name")
+.value,
+
+
+
+email:
+document
+.getElementById("email")
+.value,
+
+
+
+category:
+document
+.getElementById("category")
+.value,
+
+
+
+priority:
+document
+.getElementById("priority")
+.value,
+
+
+
+subject:
+document
+.getElementById("subject")
+.value,
+
+
+
+description:
+document
+.getElementById("description")
+.value,
+
+
+
+status:
+"Offen",
+
+
+
+created:
+new Date()
+.toISOString()
+
+
+
+};
+
+
+
+
+
+if(
+!ticket.name ||
+!ticket.email ||
+!ticket.subject ||
+!ticket.description
+){
+
+
+document
+.getElementById("ticketResult")
+.innerHTML =
+
+"❌ Bitte alle Felder ausfüllen.";
+
+
+return;
+
+
+}
+
+
+
+
+
+const success =
+await uploadTicket(ticket);
+
+
+
+
+
+if(success){
+
+
+
+document
+.getElementById("ticketResult")
+.innerHTML =
+
+"✓ Ticket erfolgreich erstellt:<br>"
++
+ticket.id;
+
+
+
+document
+.getElementById("name")
+.value="";
+
+
+document
+.getElementById("email")
+.value="";
+
+
+document
+.getElementById("subject")
+.value="";
+
+
+document
+.getElementById("description")
+.value="";
+
+
+
+loadCloudTickets();
+
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+/* =============================
+   ADMIN AUF CLOUD UMSTELLEN
+============================= */
+
+
+
+document
+.getElementById("adminLogin")
+.onclick=function(){
+
+
+
+const password =
+
+document
+.getElementById("adminPassword")
+.value;
+
+
+
+
+if(password === ADMIN_PASSWORD){
+
+
+
+document
+.getElementById("adminDashboard")
+.style.display="block";
+
+
+
+document
+.getElementById("adminMessage")
+.innerHTML=
+
+"✓ Anmeldung erfolgreich";
+
+
+
+loadCloudAdmin();
+
+
+
+}
+
+else{
+
+
+document
+.getElementById("adminMessage")
+.innerHTML=
+
+"❌ Falsches Passwort";
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+/* =============================
+   AUTOMATISCHE AKTUALISIERUNG
+============================= */
+
+
+
+document
+.querySelector(
+'[data-target="tickets"]'
+)
+.addEventListener(
+"click",
+()=>{
+
+
+loadCloudTickets();
+
+
+});
+
+
+
+</script>
+<script>
+
+
+/* =============================
+   VERSIONSSYSTEM SUPABASE
+============================= */
+
+
+
+async function loadVersion(){
+
+
+const {data,error}=
+
+await database
+
+.from("settings")
+
+.select("*")
+
+.eq(
+"id",
+"version"
+)
+
+.single();
+
+
+
+
+if(error){
+
+console.log(
+"Keine Version gefunden"
+);
+
+return;
+
+}
+
+
+
+
+document
+.getElementById(
+"versionText"
+)
+.innerHTML =
+data.value;
+
+
+
+document
+.getElementById(
+"version"
+)
+.value =
+data.value;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =============================
+   VERSION SPEICHERN
+============================= */
+
+
+document
+.getElementById("saveVersion")
+.onclick = async function(){
+
+
+
+const newVersion =
+
+document
+.getElementById("version")
+.value
+.trim();
+
+
+
+
+
+if(!newVersion){
+
+return;
+
+}
+
+
+
+
+
+const {error}=
+
+await database
+
+.from("settings")
+
+.update({
+
+value:newVersion
+
+})
+
+.eq(
+
+"id",
+
+"version"
+
+);
+
+
+
+
+
+if(error){
+
+
+document
+.getElementById(
+"adminMessage"
+)
+.innerHTML =
+
+"❌ Fehler beim Speichern";
+
+
+return;
+
+
+}
+
+
+
+
+document
+.getElementById(
+"adminMessage"
+)
+.innerHTML =
+
+"✓ Version aktualisiert";
+
+
+
+loadVersion();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+/* =============================
+   START
+============================= */
+
+
+loadVersion();
+
+
+
+</script>
