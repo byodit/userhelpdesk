@@ -694,19 +694,32 @@
 
     const diagText = Object.entries(systemInfo).map(([k,v])=>`${k}: ${v}`).join('\n');
 
-    const payload = {
-      _subject: `[BYOD Support] Neues Ticket ${ticketId} — ${subject}`,
-      Ticket_ID: ticketId,
-      Name: name,
-      Email: email,
-      Kategorie: category,
-      Prioritaet: selectedPriority,
-      Betreff: subject,
-      Nachricht: message,
-      Systemdiagnose: diagText,
-      _template: 'table',
-      _captcha: 'false'
-    };
+const payload = {
+  _subject: `[BYOD Support] Neues Ticket ${ticketId} — ${subject}`,
+  Ticket_ID: ticketId,
+  Name: name,
+  Email: email,
+  Kategorie: category,
+  Prioritaet: selectedPriority,
+  Betreff: subject,
+  Nachricht: message,
+  Systemdiagnose: diagText,
+
+  _autoresponse: `Hallo ${name},
+
+dein Ticket wurde erfolgreich an den BYOD UserHelpDesk gesendet.
+
+Ticket-ID: ${ticketId}
+Betreff: ${subject}
+
+Ich werde deine Anfrage prüfen und mich bei Bedarf melden.
+
+Viele Grüße
+BYOD UserHelpDesk`,
+
+  _template: 'table',
+  _captcha: 'false'
+};
 
     try{
       const res = await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
