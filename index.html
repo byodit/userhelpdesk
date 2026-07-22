@@ -344,7 +344,7 @@
 <div class="tx-bar">
   <div class="tx-input-wrap">
     <span>Transaktion eingeben:</span>
-    <input type="text" id="txInput" placeholder="z. B. /admin" autocomplete="off">
+    <input type="text" id="txInput"
   </div>
 </div>
 
@@ -497,15 +497,34 @@
 <script>
   const SUPPORT_EMAIL = 'schwickert.louis@outlook.de';
 
-  /* ---------- TAB NAVIGATION ---------- */
+  const SUPABASE_URL = 'https://oeyhdfbdgrrkbjhpmcrt.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leWhkZmJkZ3Jya2JqaHBtY3J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2NDIzNzUsImV4cCI6MjEwMDIxODM3NX0.2G0needE17Kosb7f8YybUHnvyT5q29t4tferQzHCnAA';
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let adminPassword = null;
+
+  /* ---------- VIEW SWITCHING ---------- */
+  function showView(name){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    const navBtn = document.querySelector(`.tab-btn[data-view="${name}"]`);
+    if(navBtn) navBtn.classList.add('active');
+    document.getElementById('view-'+name).classList.add('active');
+    if(name==='tickets') renderTicketsList();
+  }
+
   document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('view-'+btn.dataset.view).classList.add('active');
-      if(btn.dataset.view==='tickets') renderTicketsList();
-    });
+    btn.addEventListener('click', ()=> showView(btn.dataset.view));
+  });
+
+  /* ---------- TRANSACTION BAR ---------- */
+  document.getElementById('txInput').addEventListener('keydown', (e)=>{
+    if(e.key !== 'Enter') return;
+    const val = e.target.value.trim().toLowerCase();
+    if(val === '/admin'){
+      showView('admin');
+      e.target.value = '';
+    }
   });
 
   /* ---------- SYSTEM DIAGNOSTICS ---------- */
@@ -628,13 +647,13 @@
     });
   });
 
-  /* ---------- TICKET STORAGE ---------- */
-  function getTickets(){
-    return JSON.parse(localStorage.getItem('byod_tickets') || '[]');
+  /* ---------- TICKET STORAGE (nur IDs lokal, Inhalte kommen live von Supabase) ---------- */
+  function getMyTicketIds(){
+    return JSON.parse(localStorage.getItem('byod_ticket_ids') || '[]');
   }
-  function saveTickets(tickets){
-    localStorage.setItem('byod_tickets', JSON.stringify(tickets));
-    document.getElementById('ticketCount').textContent = tickets.length;
+  function saveMyTicketIds(ids){
+    localStorage.setItem('byod_ticket_ids', JSON.stringify(ids));
+    document.getElementById('ticketCount').textContent = ids.length;
   }
   function generateTicketId(){
     const d = new Date();
@@ -643,35 +662,158 @@
     return `BYOD-${datePart}-${rand}`;
   }
 
-  function renderTicketsList(){
-    const tickets = getTickets();
+  const STATUS_LABELS = { offen: 'Offen', in_bearbeitung: 'In Bearbeitung', geloescht: 'Gelöscht' };
+
+  async function renderTicketsList(){
     const container = document.getElementById('ticketsList');
-    if(tickets.length === 0){
-      container.innerHTML = `
-        <div class="empty-state">
-          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          <p>Noch keine Tickets erstellt. Wechsle zu „Ticket erstellen“, um dein erstes Anliegen zu senden.</p>
-        </div>`;
+    const ids = getMyTicketIds();
+    if(ids.length === 0){
+      container.innerHTML = emptyStateHtml();
       return;
     }
-    container.innerHTML = tickets.slice().reverse().map(t => `
+    container.innerHTML = `<p style="font-size:12.5px;color:var(--text-dim);">Lade aktuellen Status …</p>`;
+    const { data, error } = await db.rpc('get_tickets_by_ids', { p_ids: ids });
+    if(error){
+      container.innerHTML = `<p style="font-size:12.5px;color:var(--danger);">Tickets konnten nicht geladen werden. Bitte später erneut versuchen.</p>`;
+      return;
+    }
+    // Gelöschte Tickets (vom Server nicht mehr zurückgegeben) auch lokal entfernen
+    const stillValidIds = data.map(t => t.id);
+    const removed = ids.filter(id => !stillValidIds.includes(id));
+    if(removed.length > 0) saveMyTicketIds(stillValidIds);
+
+    if(data.length === 0){
+      container.innerHTML = emptyStateHtml();
+      return;
+    }
+    container.innerHTML = data.map(t => `
       <div class="ticket-row">
         <div class="tid">${t.id}</div>
         <div>
           <div class="tsubject">${escapeHtml(t.subject)}</div>
-          <div class="tmeta">${t.category} · ${new Date(t.createdAt).toLocaleString('de-DE')}</div>
+          <div class="tmeta">${t.category} · ${new Date(t.created_at).toLocaleString('de-DE')}</div>
         </div>
         <div class="badge prio-${t.priority}">${t.priority}</div>
-        <div class="badge open">Offen</div>
-        <div style="font-size:11.5px;color:var(--text-dim);text-align:right;">${escapeHtml(t.email)}</div>
+        <div class="badge open">${STATUS_LABELS[t.status] || t.status}</div>
+        <div></div>
       </div>
     `).join('');
+  }
+
+  function emptyStateHtml(){
+    return `
+      <div class="empty-state">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <p>Noch keine Tickets erstellt. Wechsle zu „Ticket erstellen“, um dein erstes Anliegen zu senden.</p>
+      </div>`;
   }
 
   function escapeHtml(str){
     const d = document.createElement('div');
     d.textContent = str;
     return d.innerHTML;
+  }
+
+  /* ---------- FOOTER VERSION ---------- */
+  async function loadFooterVersion(){
+    try{
+      const { data, error } = await db.rpc('get_public_version');
+      if(!error && data) document.getElementById('footerVersion').textContent = data;
+    }catch(e){ /* Fallback bleibt 1.0.0 */ }
+  }
+  loadFooterVersion();
+
+  /* ---------- ADMIN ---------- */
+  async function adminLogin(){
+    const pw = document.getElementById('adminPasswordInput').value;
+    const errEl = document.getElementById('adminLoginError');
+    errEl.textContent = '';
+    const { data, error } = await db.rpc('admin_get_all_tickets', { p_password: pw });
+    if(error){
+      errEl.textContent = 'Falsches Passwort oder Verbindungsfehler.';
+      return;
+    }
+    adminPassword = pw;
+    document.getElementById('adminLockPanel').style.display = 'none';
+    document.getElementById('adminMainPanel').style.display = 'block';
+    renderAdminTickets(data);
+    loadCurrentVersionIntoInput();
+  }
+
+  function adminLogout(){
+    adminPassword = null;
+    document.getElementById('adminPasswordInput').value = '';
+    document.getElementById('adminLockPanel').style.display = 'block';
+    document.getElementById('adminMainPanel').style.display = 'none';
+    showView('diagnose');
+  }
+
+  async function adminRefresh(){
+    if(!adminPassword) return;
+    const { data, error } = await db.rpc('admin_get_all_tickets', { p_password: adminPassword });
+    if(error){ adminLogout(); return; }
+    renderAdminTickets(data);
+  }
+
+  async function loadCurrentVersionIntoInput(){
+    const { data, error } = await db.rpc('get_public_version');
+    if(!error && data) document.getElementById('versionInput').value = data;
+  }
+
+  async function adminSaveVersion(){
+    if(!adminPassword) return;
+    const versionStatus = document.getElementById('versionStatus');
+    const newVersion = document.getElementById('versionInput').value.trim();
+    if(!newVersion){ return; }
+    versionStatus.className = 'form-status';
+    versionStatus.textContent = 'Speichere …';
+    const { error } = await db.rpc('admin_update_version', { p_password: adminPassword, p_version: newVersion });
+    if(error){
+      versionStatus.className = 'form-status err';
+      versionStatus.textContent = '✗ Fehler beim Speichern.';
+      return;
+    }
+    versionStatus.className = 'form-status ok';
+    versionStatus.textContent = '✓ Gespeichert.';
+    loadFooterVersion();
+  }
+
+  function renderAdminTickets(tickets){
+    const container = document.getElementById('adminTicketsList');
+    if(!tickets || tickets.length === 0){
+      container.innerHTML = emptyStateHtml();
+      return;
+    }
+    container.innerHTML = tickets.map(t => `
+      <div class="admin-ticket-row">
+        <div class="tid">${t.id}</div>
+        <div>
+          <div class="tsub">${escapeHtml(t.subject)}</div>
+          <div class="tmeta">${escapeHtml(t.name)} · ${escapeHtml(t.email)}</div>
+        </div>
+        <div class="tmeta">${t.category} · ${t.priority} · ${new Date(t.created_at).toLocaleString('de-DE')}</div>
+        <div></div>
+        <select class="status-select st-${t.status}" onchange="adminChangeStatus('${t.id}', this.value, this)">
+          <option value="offen" ${t.status==='offen'?'selected':''}>Offen</option>
+          <option value="in_bearbeitung" ${t.status==='in_bearbeitung'?'selected':''}>In Bearbeitung</option>
+          <option value="geloescht" ${t.status==='geloescht'?'selected':''}>Gelöscht</option>
+        </select>
+        <button class="del-btn" onclick="adminChangeStatus('${t.id}', 'geloescht', null)">Löschen</button>
+      </div>
+    `).join('');
+  }
+
+  async function adminChangeStatus(ticketId, newStatus, selectEl){
+    if(!adminPassword) return;
+    const { error } = await db.rpc('admin_update_status', { p_password: adminPassword, p_ticket_id: ticketId, p_status: newStatus });
+    if(error){
+      alert('Status konnte nicht geändert werden.');
+      return;
+    }
+    if(selectEl){
+      selectEl.className = 'status-select st-' + newStatus;
+    }
+    adminRefresh();
   }
 
   /* ---------- FORM SUBMIT ---------- */
@@ -694,48 +836,40 @@
 
     const diagText = Object.entries(systemInfo).map(([k,v])=>`${k}: ${v}`).join('\n');
 
-const payload = {
-  _subject: `[BYOD Support] Neues Ticket ${ticketId} — ${subject}`,
-  Ticket_ID: ticketId,
-  Name: name,
-  Email: email,
-  Kategorie: category,
-  Prioritaet: selectedPriority,
-  Betreff: subject,
-  Nachricht: message,
-  Systemdiagnose: diagText,
-
-  _autoresponse: `Hallo ${name},
-
-dein Ticket wurde erfolgreich an den BYOD UserHelpDesk gesendet.
-
-Ticket-ID: ${ticketId}
-Betreff: ${subject}
-
-Ich werde deine Anfrage prüfen und mich bei Bedarf melden.
-
-Viele Grüße
-BYOD UserHelpDesk`,
-
-  _template: 'table',
-  _captcha: 'false'
-};
+    const payload = {
+      _subject: `[BYOD Support] Neues Ticket ${ticketId} — ${subject}`,
+      Ticket_ID: ticketId,
+      Name: name,
+      Email: email,
+      Kategorie: category,
+      Prioritaet: selectedPriority,
+      Betreff: subject,
+      Nachricht: message,
+      Systemdiagnose: diagText,
+      _template: 'table',
+      _captcha: 'false'
+    };
 
     try{
-      const res = await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
+      const { error: dbError } = await db.rpc('create_ticket', {
+        p_id: ticketId, p_name: name, p_email: email, p_category: category,
+        p_priority: selectedPriority, p_subject: subject, p_message: message,
+        p_diagnostics: diagText
       });
+      if(dbError) throw dbError;
 
-      if(!res.ok) throw new Error('Versand fehlgeschlagen');
+      // E-Mail-Benachrichtigung zusätzlich per FormSubmit
+      try{
+        await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }catch(mailErr){ /* Ticket ist trotzdem gespeichert, E-Mail ist optional */ }
 
-      const tickets = getTickets();
-      tickets.push({
-        id: ticketId, name, email, category, priority: selectedPriority,
-        subject, message, createdAt: new Date().toISOString()
-      });
-      saveTickets(tickets);
+      const ids = getMyTicketIds();
+      ids.push(ticketId);
+      saveMyTicketIds(ids);
 
       statusEl.className = 'form-status ok';
       statusEl.textContent = `✓ Ticket ${ticketId} wurde gesendet.`;
@@ -751,7 +885,7 @@ BYOD UserHelpDesk`,
     }
   });
 
-  saveTickets(getTickets());
+  saveMyTicketIds(getMyTicketIds());
 </script>
 
 </body>
