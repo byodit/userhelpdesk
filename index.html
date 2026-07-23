@@ -344,7 +344,7 @@
 <div class="tx-bar">
   <div class="tx-input-wrap">
     <span>Transaktion eingeben:</span>
-    <input type="text" id="txInput"
+    <input type="text" id="txInput" placeholder="z. B. /admin" autocomplete="off">
   </div>
 </div>
 
@@ -836,18 +836,31 @@
 
     const diagText = Object.entries(systemInfo).map(([k,v])=>`${k}: ${v}`).join('\n');
 
+    const autoresponseText = `Hallo ${name},
+
+Dein Ticket wurde erfolgreich erstellt. Ich werde mich schnellstmöglich bei Dir melden.
+
+Name des Tickets: ${ticketId}
+Betreff: ${subject}
+Nachricht: ${message}
+
+
+Ganz Liebe Grüße`;
+
     const payload = {
       _subject: `[BYOD Support] Neues Ticket ${ticketId} — ${subject}`,
       Ticket_ID: ticketId,
       Name: name,
       Email: email,
+      email: email,
       Kategorie: category,
       Prioritaet: selectedPriority,
       Betreff: subject,
       Nachricht: message,
       Systemdiagnose: diagText,
       _template: 'table',
-      _captcha: 'false'
+      _captcha: 'false',
+      _autoresponse: autoresponseText
     };
 
     try{
@@ -858,12 +871,14 @@
       });
       if(dbError) throw dbError;
 
-      // E-Mail-Benachrichtigung zusätzlich per FormSubmit
+      // E-Mail-Benachrichtigung zusätzlich per FormSubmit (FormData, damit _autoresponse funktioniert)
       try{
+        const fd = new FormData();
+        Object.entries(payload).forEach(([key, value]) => fd.append(key, value));
         await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: { 'Accept': 'application/json' },
+          body: fd
         });
       }catch(mailErr){ /* Ticket ist trotzdem gespeichert, E-Mail ist optional */ }
 
