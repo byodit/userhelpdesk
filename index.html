@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BYODIT UserHelpDesk</title>
+<title>BYOD Studios — Support Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root{
     --bg:#0c0a08;
@@ -326,11 +327,11 @@
     <div class="brand-mark">BS</div>
     <div class="brand-text">
       <h1>BYOD Studios</h1>
-      <span>UserHelpDesk</span>
+      <span>Support Center</span>
     </div>
   </div>
   <div class="helpdesk-pill">
-    <div class="line1"><span class="dot"></span>UserHelpDesk: +49 1590 1993688</div>
+    <div class="line1"><span class="dot"></span>BYOD UserHelpDesk: +49 1590 1993688</div>
     <div class="line2">Es gelten die jeweiligen Tarifpreise</div>
   </div>
 </header>
@@ -344,7 +345,7 @@
 <div class="tx-bar">
   <div class="tx-input-wrap">
     <span>Transaktion eingeben:</span>
-    <input type="text" id="txInput" placeholder=" autocomplete="off">
+    <input type="text" id="txInput" placeholder="z. B. /admin" autocomplete="off">
   </div>
 </div>
 
@@ -379,7 +380,7 @@
       <div class="panel-head">
         <div>
           <h2>Neues Ticket erstellen</h2>
-          <p>Ich werde mich schnellstmöglich bei Dir melden..</p>
+          <p>Unser Team meldet sich in der Regel innerhalb von 24 Stunden.</p>
         </div>
       </div>
       <form id="ticketForm">
@@ -431,6 +432,14 @@
           <span class="form-status" id="formStatus"></span>
         </div>
       </form>
+
+      <div id="confirmationBox" style="display:none;margin-top:22px;background:var(--glass);border:1px solid var(--border-bright);border-left:3px solid var(--success);border-radius:10px;padding:18px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="color:var(--success);font-size:15px;">✓</span>
+          <strong style="font-family:var(--font-display);font-size:14.5px;">Ticket erfolgreich erstellt</strong>
+        </div>
+        <p id="confirmationText" style="font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:var(--font-body);"></p>
+      </div>
     </div>
   </section>
 
@@ -453,7 +462,7 @@
     <div class="panel" id="adminLockPanel">
       <div class="admin-lock">
         <h2>🔒 Admin-Bereich</h2>
-        <p>Hallo Louis Schwickert! Bitte gib Dein Passwort ein.</p>
+        <p>Bitte Passwort eingeben, um Tickets zu verwalten.</p>
         <input type="password" id="adminPasswordInput" placeholder="Passwort" autocomplete="off">
         <button class="btn" style="width:100%;" onclick="adminLogin()">Anmelden</button>
         <div class="admin-error" id="adminLoginError"></div>
@@ -491,15 +500,19 @@
 
 <footer>
   <div class="credit">Powered by <b>Louis Schwickert</b> — Version <span id="footerVersion">1.0.0</span></div>
-  <div class="status-line"><span class="dot"></span>UserHelpDesk ready</div>
+  <div class="status-line"><span class="dot"></span>Support Center bereit</div>
 </footer>
 
-<script>
-  const SUPPORT_EMAIL = 'schwickert.louis@outlook.de';
 
+<script>
   const SUPABASE_URL = 'https://oeyhdfbdgrrkbjhpmcrt.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leWhkZmJkZ3Jya2JqaHBtY3J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2NDIzNzUsImV4cCI6MjEwMDIxODM3NX0.2G0needE17Kosb7f8YybUHnvyT5q29t4tferQzHCnAA';
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const EMAILJS_SERVICE_ID = 'service_udbqq4c';
+  const EMAILJS_ADMIN_TEMPLATE_ID = 'template_1hjohiq';
+  const EMAILJS_CUSTOMER_TEMPLATE_ID = 'template_k4f70xs';
+  emailjs.init({ publicKey: 'n5QGmtP6zsx0JNJuC' });
 
   let adminPassword = null;
 
@@ -826,6 +839,7 @@
     submitBtn.disabled = true;
     statusEl.className = 'form-status';
     statusEl.textContent = 'Ticket wird gesendet …';
+    document.getElementById('confirmationBox').style.display = 'none';
 
     const name = document.getElementById('f_name').value.trim();
     const email = document.getElementById('f_email').value.trim();
@@ -836,7 +850,48 @@
 
     const diagText = Object.entries(systemInfo).map(([k,v])=>`${k}: ${v}`).join('\n');
 
-    const autoresponseText = `Hallo ${name},
+    try{
+      const { error: dbError } = await db.rpc('create_ticket', {
+        p_id: ticketId, p_name: name, p_email: email, p_category: category,
+        p_priority: selectedPriority, p_subject: subject, p_message: message,
+        p_diagnostics: diagText
+      });
+      if(dbError) throw dbError;
+
+      // E-Mail-Benachrichtigung an den Admin (EmailJS)
+      try{
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE_ID, {
+          ticket_id: ticketId,
+          name: name,
+          email: email,
+          category: category,
+          priority: selectedPriority,
+          subject: subject,
+          message: message,
+          diagnostics: diagText
+        });
+      }catch(mailErr){ /* Ticket ist trotzdem gespeichert, E-Mail ist optional */ }
+
+      // Bestätigungs-E-Mail an den Kunden (EmailJS, über schwickert.louis@outlook.de)
+      try{
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CUSTOMER_TEMPLATE_ID, {
+          to_email: email,
+          name: name,
+          ticket_id: ticketId,
+          subject: subject,
+          message: message
+        });
+      }catch(customerMailErr){ /* Ticket ist trotzdem gespeichert, Kundenmail ist optional */ }
+
+      const ids = getMyTicketIds();
+      ids.push(ticketId);
+      saveMyTicketIds(ids);
+
+      statusEl.className = 'form-status ok';
+      statusEl.textContent = `✓ Ticket ${ticketId} wurde gesendet.`;
+
+      document.getElementById('confirmationText').textContent =
+`Hallo ${name},
 
 Dein Ticket wurde erfolgreich erstellt. Ich werde mich schnellstmöglich bei Dir melden.
 
@@ -846,48 +901,8 @@ Nachricht: ${message}
 
 
 Ganz Liebe Grüße`;
+      document.getElementById('confirmationBox').style.display = 'block';
 
-    const payload = {
-      _subject: `[BYODIT UserHelpDesk] Neues Ticket ${ticketId}`,
-      Ticket_ID: ticketId,
-      Name: name,
-      Email: email,
-      email: email,
-      Kategorie: category,
-      Prioritaet: selectedPriority,
-      Betreff: subject,
-      Nachricht: message,
-      Systemdiagnose: diagText,
-      _template: 'table',
-      _captcha: 'false',
-      _autoresponse: autoresponseText
-    };
-
-    try{
-      const { error: dbError } = await db.rpc('create_ticket', {
-        p_id: ticketId, p_name: name, p_email: email, p_category: category,
-        p_priority: selectedPriority, p_subject: subject, p_message: message,
-        p_diagnostics: diagText
-      });
-      if(dbError) throw dbError;
-
-      // E-Mail-Benachrichtigung zusätzlich per FormSubmit (FormData, damit _autoresponse funktioniert)
-      try{
-        const fd = new FormData();
-        Object.entries(payload).forEach(([key, value]) => fd.append(key, value));
-        await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: fd
-        });
-      }catch(mailErr){ /* Ticket ist trotzdem gespeichert, E-Mail ist optional */ }
-
-      const ids = getMyTicketIds();
-      ids.push(ticketId);
-      saveMyTicketIds(ids);
-
-      statusEl.className = 'form-status ok';
-      statusEl.textContent = `✓ Ticket ${ticketId} wurde gesendet.`;
       form.reset();
       selectedPriority = 'Mittel';
       document.querySelectorAll('.priority-chip').forEach(c=>c.classList.remove('selected'));
