@@ -76,6 +76,15 @@
   .helpdesk-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
   .helpdesk-pill .line2{font-size:10.5px;color:var(--text-dim);}
+  .session-timer{
+    display:flex;align-items:center;gap:9px;padding:8px 13px;border-radius:999px;
+    background:rgba(212,162,76,0.08);border:1px solid var(--border);
+    font-family:var(--font-mono);white-space:nowrap;
+  }
+  .session-timer .timer-label{font-family:var(--font-body);font-size:10.5px;color:var(--text-dim);}
+  .session-timer .timer-value{font-size:13px;font-weight:600;color:var(--gold-bright);font-variant-numeric:tabular-nums;}
+  .session-timer.warning{background:rgba(193,85,74,0.10);border-color:rgba(193,85,74,0.45);}
+  .session-timer.warning .timer-value{color:#e37e73;}
   .user-chip{
     display:flex;align-items:center;gap:8px;padding:7px 8px 7px 14px;border-radius:999px;
     background:var(--glass);border:1px solid var(--border);font-size:12.5px;
@@ -240,6 +249,9 @@
     .diag-row{grid-template-columns:150px 1fr;font-size:11px;}
     .ticket-row{grid-template-columns:1fr;gap:6px;}
     header{padding:14px 16px;}
+    .header-right{width:100%;justify-content:space-between;}
+    .session-timer{padding:7px 10px;}
+    .session-timer .timer-label{font-size:9.5px;}
     main{padding:0 14px 110px 14px;}
     nav{padding:12px 14px 0 14px;}
     footer{flex-direction:column;gap:4px;padding:10px 14px;text-align:center;}
@@ -301,6 +313,10 @@
     <div class="brand-text"><h1>BYOD Studios</h1><span>userHelpDesk</span></div>
   </div>
   <div class="header-right">
+    <div class="session-timer" id="sessionTimer" aria-live="polite" title="Automatische Abmeldung nach 5 Minuten">
+      <span class="timer-label">Sitzung endet in</span>
+      <span class="timer-value" id="sessionTimerValue">05:00</span>
+    </div>
     <div class="user-chip">
       <span class="uname" id="userName"></span>
       <button id="changePwBtn" type="button">Passwort ändern</button>
@@ -574,6 +590,7 @@
     if(session.must_change_password){ showPwBox(true); return; }
     document.body.classList.add('authed');
     showAuthBox('login');
+    startSessionTimer();
     $('userName').textContent = session.display_name + (session.is_admin ? ' (Admin)' : '');
     $('adminTab').style.display = session.is_admin ? 'flex' : 'none';
     $('f_name').value = session.display_name;
@@ -583,6 +600,67 @@
     loadFooterVersion();
     refreshTicketCount();
   }
+
+  /* ---------- 5-MINUTEN-SITZUNGSTIMER ---------- */
+  const SESSION_DURATION_MS = 5 * 60 * 1000;
+  let sessionDeadline = null;
+  let sessionTimerInterval = null;
+  let logoutInProgress = false;
+
+  function stopSessionTimer(){
+    if(sessionTimerInterval){
+      clearInterval(sessionTimerInterval);
+      sessionTimerInterval = null;
+    }
+    sessionDeadline = null;
+    const timer = $('sessionTimer');
+    if(timer) timer.classList.remove('warning');
+  }
+
+  function updateSessionTimer(){
+    if(!session || sessionDeadline === null) return;
+    const remaining = Math.max(0, sessionDeadline - Date.now());
+    const totalSeconds = Math.ceil(remaining / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    $('sessionTimerValue').textContent =
+      String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+
+    $('sessionTimer').classList.toggle('warning', remaining <= 60 * 1000);
+    if(remaining <= 0){
+      stopSessionTimer();
+      doLogout('Deine 5-Minuten-Sitzung ist abgelaufen. Bitte melde dich erneut an.');
+    }
+  }
+
+  function startSessionTimer(){
+    stopSessionTimer();
+    logoutInProgress = false;
+    sessionDeadline = Date.now() + SESSION_DURATION_MS;
+    updateSessionTimer();
+    sessionTimerInterval = setInterval(updateSessionTimer, 250);
+  }
+
+  /* Beim Neuladen oder Verlassen der Seite lokal sofort sperren.
+     Der keepalive-Aufruf versucht zusätzlich, das Token serverseitig abzumelden. */
+  window.addEventListener('pagehide', () => {
+    const token = session && session.token;
+    stopSessionTimer();
+    if(token){
+      localStorage.removeItem(TOKEN_KEY);
+      try{
+        fetch(SUPABASE_URL + '/rest/v1/rpc/app_logout', {
+          method: 'POST',
+          keepalive: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ p_token: token })
+        }).catch(() => {});
+      }catch(e){}
+    }
+  });
 
   /* ---------- LOGIN / LOGOUT ---------- */
   $('loginForm').addEventListener('submit', async (e) => {
@@ -606,6 +684,9 @@
   });
 
   async function doLogout(msg, skipServer){
+    if(logoutInProgress) return;
+    logoutInProgress = true;
+    stopSessionTimer();
     const t = session && session.token;
     session = null;
     localStorage.removeItem(TOKEN_KEY);
@@ -1053,15 +1134,14 @@ Louis vom BYODUserHelpDesk`;
     }
   });
 
-  /* ---------- START: gespeicherte Sitzung prüfen, sonst Login ---------- */
+  /* ---------- START: Nach jedem Neuladen erneut anmelden ---------- */
   (async function init(){
     const t = localStorage.getItem(TOKEN_KEY);
+    localStorage.removeItem(TOKEN_KEY);
     if(t){
       try{
-        const { data, error } = await db.rpc('app_session_info', { p_token: t });
-        if(!error && data){ session = { token: t, ...data }; enterApp(); return; }
+        await db.rpc('app_logout', { p_token: t });
       }catch(e){}
-      localStorage.removeItem(TOKEN_KEY);
     }
     showLogin();
   })();
