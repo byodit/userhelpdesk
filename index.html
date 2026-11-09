@@ -259,6 +259,95 @@
     .admin-ticket-row, .user-row{grid-template-columns:1fr;gap:6px;}
     .user-row .uactions{justify-content:flex-start;}
   }
+
+/* ===== BYOD Studios: modernes, klares UI-Redesign (nur CSS) ===== */
+:root{
+  --bg:#f4f6fb;--bg-elevated:#ffffff;--glass:rgba(255,255,255,.78);--glass-strong:#fff;
+  --border:#e4e8f0;--border-bright:#c8d2e2;--gold:#5865d9;--gold-bright:#4653c5;
+  --text:#172033;--text-muted:#667085;--text-dim:#8992a5;
+  --danger:#d14343;--success:#16845b;--warn:#b7791f;--radius:16px;
+  --font-display:'Inter',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#f8f9fd 0%,#f1f4f9 100%);color:var(--text);font-size:14px;line-height:1.55}
+::selection{background:rgba(88,101,217,.18)}
+#authOverlay{background:radial-gradient(ellipse 700px 420px at 50% 0%,rgba(88,101,217,.10),transparent 70%),#f4f6fb}
+.auth-card{background:#fff;border:1px solid #e6eaf2;border-radius:22px;padding:36px;box-shadow:0 24px 70px rgba(29,42,75,.12)}
+.auth-card h2{font-size:24px;letter-spacing:-.6px;color:#172033}
+.auth-card p.sub{font-size:13px;color:#697386}
+.brand-mark{background:linear-gradient(135deg,#6975ed,#4d59cb);color:#fff;box-shadow:0 7px 18px rgba(88,101,217,.25);border-radius:12px}
+.brand-text h1{font-size:18px;letter-spacing:-.4px;color:#172033}
+.brand-text span{color:#7c8598;letter-spacing:1px}
+header{background:rgba(255,255,255,.9);border-bottom:1px solid #e5e9f1;backdrop-filter:blur(18px);padding:18px clamp(16px,3vw,36px);box-shadow:0 4px 20px rgba(25,35,60,.035)}
+.helpdesk-pill{background:#f7f8fc;border-color:#e6eaf2;border-radius:12px;text-align:left;align-items:flex-start}
+.helpdesk-pill .line1{font-family:var(--font-body);font-size:12px;color:#4653c5;font-weight:600}
+.helpdesk-pill .line2{color:#7c8598}
+.session-timer{background:#f1f3ff;border-color:#e0e4ff;border-radius:10px}
+.session-timer .timer-label{color:#737b91}.session-timer .timer-value{color:#4653c5}
+.user-chip{background:#fff;border-color:#e5e9f1;border-radius:12px}
+.user-chip button{background:#f7f8fc;border-color:#e5e9f1;color:#596579;border-radius:8px}
+.user-chip button:hover{background:#eef0ff;color:#4653c5;border-color:#cfd4ff}
+nav{padding:18px clamp(16px,3vw,36px) 0;gap:8px}
+.tab-btn{border:1px solid transparent!important;border-radius:10px!important;color:#667085!important;background:transparent!important;padding:10px 15px!important;font-weight:600!important;transition:all .18s ease}
+.tab-btn:hover{background:#fff!important;border-color:#e5e9f1!important;color:#3b4660!important}
+.tab-btn.active{background:#fff!important;color:#4653c5!important;border-color:#e0e4ff!important;box-shadow:0 3px 10px rgba(31,41,75,.06)}
+.tab-btn .count{background:#eef0ff!important;color:#4653c5!important;border-radius:7px!important}
+.tx-bar{margin:16px clamp(16px,3vw,36px) 0;padding:12px 16px;background:#fff;border:1px solid #e5e9f1;border-radius:12px;box-shadow:0 3px 12px rgba(25,35,60,.025)}
+.tx-input-wrap span{color:#667085;font-weight:600}
+.tx-input-wrap input{background:#f8f9fc!important;border:1px solid #e2e6ef!important;border-radius:8px!important;color:#172033!important}
+.tx-output{color:#4653c5}
+main{max-width:1440px;width:100%;margin:0 auto;padding:22px clamp(16px,3vw,36px) 110px}
+.panel{background:#fff;border:1px solid #e5e9f1;border-radius:18px;padding:clamp(18px,2.5vw,28px);box-shadow:0 5px 24px rgba(25,35,60,.045);margin-bottom:18px}
+.panel-head{margin-bottom:22px;gap:16px}
+.panel-head h2{font-size:23px;letter-spacing:-.7px;color:#172033;font-weight:700}
+.panel-head p{color:#778196;font-size:13px;margin-top:4px}
+.field label{color:#4c566b;font-weight:600;font-size:12.5px;margin-bottom:7px}
+input,select,textarea{background:#fbfcfe!important;border:1px solid #dfe4ed!important;border-radius:10px!important;color:#172033!important;padding:11px 13px!important;transition:border-color .15s,box-shadow .15s}
+input::placeholder,textarea::placeholder{color:#a0a8b7}
+input:focus,select:focus,textarea:focus{outline:none!important;border-color:#8c96ef!important;box-shadow:0 0 0 3px rgba(88,101,217,.12)!important}
+.btn{background:linear-gradient(135deg,#6571e6,#4d59cb)!important;border:1px solid #4d59cb!important;color:#fff!important;border-radius:10px!important;padding:11px 17px!important;font-weight:600!important;box-shadow:0 4px 10px rgba(88,101,217,.18);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(88,101,217,.23)}
+.btn.secondary{background:#fff!important;color:#4653c5!important;border-color:#dfe3fb!important;box-shadow:none!important}
+.btn.secondary:hover{background:#f5f6ff!important}
+.link-btn{color:#68738a}
+.priority-chip{border:1px solid #e2e6ef!important;background:#f8f9fc!important;color:#657087!important;border-radius:9px!important;padding:8px 13px!important}
+.priority-chip.selected{background:#eef0ff!important;border-color:#cbd1ff!important;color:#4653c5!important}
+.terminal{border:1px solid #dfe4ed!important;border-radius:13px!important;overflow:hidden;box-shadow:0 3px 12px rgba(25,35,60,.04)}
+.terminal-bar{background:#f4f6fa!important;border-bottom:1px solid #e2e6ef!important}
+.terminal-body{background:#fbfcfe!important;color:#3c4960!important}
+.diag-row{border-bottom-color:#e9edf3!important}
+.diag-row .diag-key{color:#6c7890!important}.diag-row .diag-value{color:#27334a!important}
+.diag-hint{color:#788399!important;background:#f7f8fc!important;border:1px solid #e9edf4;border-radius:10px;padding:11px 14px;margin-top:14px}
+.ticket-row,.admin-ticket-row,.user-row{background:#fff!important;border:1px solid #e5e9f1!important;border-radius:12px!important;padding:15px!important;transition:box-shadow .15s,border-color .15s}
+.ticket-row:hover,.admin-ticket-row:hover,.user-row:hover{border-color:#cfd5ff!important;box-shadow:0 5px 16px rgba(35,45,90,.06)}
+.tid{color:#4653c5!important;font-family:var(--font-mono)}
+.tsubject{color:#172033!important;font-weight:600}
+.tmeta{color:#8791a4!important}
+.status-badge,.badge{border-radius:7px!important}
+.empty-state{color:#7b8598!important;background:#fafbfe;border:1px dashed #dfe4ed;border-radius:14px;padding:32px}
+footer{background:rgba(255,255,255,.92)!important;border-top:1px solid #e5e9f1!important;color:#8791a4!important;backdrop-filter:blur(16px)}
+footer .credit b{color:#4653c5!important}
+button, .tab-btn, .priority-chip{cursor:pointer}
+button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
+@media(max-width:720px){
+  header{padding:14px 16px}.panel{border-radius:14px;padding:17px}.panel-head h2{font-size:20px}
+  .helpdesk-pill{align-items:flex-start;text-align:left}.auth-card{padding:25px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+
+
+  /* ---------- NEWS ---------- */
+  .news-list{display:grid;gap:14px;}
+  .news-card{border:1px solid var(--border);background:var(--glass);border-radius:12px;padding:20px;}
+  .news-card h3{font-family:var(--font-display);font-size:17px;margin-bottom:8px;color:var(--gold-bright);}
+  .news-card .news-meta{font-size:11px;color:var(--text-dim);margin-bottom:12px;font-family:var(--font-mono);}
+  .news-card .news-content{font-size:13.5px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere;}
+  .news-admin-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--border);}
+  .news-admin-row:last-child{border-bottom:0;}
+  .news-admin-row .news-admin-title{font-weight:600;}
+  .news-admin-row .news-admin-meta{font-size:11px;color:var(--text-dim);margin-top:4px;}
+  #newsBody{width:100%;min-height:130px;resize:vertical;}
+  @media(max-width:720px){.news-admin-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -333,16 +422,9 @@
   <button class="tab-btn active" data-view="diagnose">🖥️ Systemdiagnose</button>
   <button class="tab-btn" data-view="ticket">✉️ Ticket erstellen</button>
   <button class="tab-btn" data-view="tickets">📋 Meine Tickets <span class="count" id="ticketCount">0</span></button>
+  <button class="tab-btn" data-view="news">📰 News</button>
   <button class="tab-btn" data-view="admin" id="adminTab" style="display:none;">⚙️ Admin</button>
 </nav>
-
-<div class="tx-bar">
-  <div class="tx-input-wrap">
-    <span>Transaktion eingeben:</span>
-    <input type="text" id="txInput" autocomplete="off">
-  </div>
-  <div class="tx-output" id="txOutput"></div>
-</div>
 
 <main>
 
@@ -448,6 +530,15 @@
     </div>
   </section>
 
+  <!-- NEWS -->
+  <section class="view" id="view-news">
+    <div class="panel">
+      <div class="panel-head"><div><h2>News</h2><p>Aktuelle Informationen und Ankündigungen von BYOD Studios.</p></div>
+        <button class="btn secondary" onclick="loadNews()">↻ Aktualisieren</button></div>
+      <div id="newsList" class="news-list"><p class="tmeta">News werden geladen …</p></div>
+    </div>
+  </section>
+
   <!-- ADMIN -->
   <section class="view" id="view-admin">
     <div class="panel">
@@ -496,6 +587,22 @@
           <button class="btn" onclick="adminSaveVersion()">Speichern</button>
           <span class="form-status" id="versionStatus"></span>
         </div>
+      </div>
+
+      <div class="admin-section" id="adminNewsSection">
+        <h3>News verwalten</h3>
+        <form id="newsForm">
+          <input type="hidden" id="newsEditId">
+          <div class="form-grid">
+            <div class="field full"><label for="newsTitle">Titel</label><input id="newsTitle" type="text" required maxlength="160" placeholder="Überschrift der News"></div>
+            <div class="field full"><label for="newsBody">Inhalt</label><textarea id="newsBody" required rows="5" maxlength="12000" placeholder="Nachricht oder Ankündigung …"></textarea></div>
+            <div class="field"><label class="check-row"><input id="newsPublished" type="checkbox" checked> Direkt veröffentlichen</label></div>
+          </div>
+          <div class="form-actions"><button class="btn" id="newsSaveBtn" type="submit">News veröffentlichen</button>
+            <button class="btn secondary" id="newsCancelBtn" type="button" onclick="resetNewsForm()" style="display:none;">Bearbeitung abbrechen</button>
+            <span class="form-status" id="newsAdminStatus"></span></div>
+        </form>
+        <div id="adminNewsList" class="admin-table-wrap"></div>
       </div>
 
       <div class="admin-section">
@@ -728,49 +835,10 @@
     if(navBtn) navBtn.classList.add('active');
     $('view-' + name).classList.add('active');
     if(name === 'tickets') renderTicketsList();
+    if(name === 'news') loadNews();
     if(name === 'admin') adminRefresh();
   }
   document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
-
-  /* ---------- TRANSACTION BAR ---------- */
-  function showTxOutput(text){
-    const out = $('txOutput');
-    out.textContent = '> ' + text;
-    out.style.display = 'block';
-  }
-  function toggleTheme(){
-    document.body.classList.toggle('theme-light');
-    const isLight = document.body.classList.contains('theme-light');
-    localStorage.setItem('byod_theme', isLight ? 'light' : 'dark');
-    return isLight;
-  }
-  if(localStorage.getItem('byod_theme') === 'light') document.body.classList.add('theme-light');
-
-  $('txInput').addEventListener('keydown', async (e) => {
-    if(e.key !== 'Enter') return;
-    const raw = e.target.value.trim();
-    const val = raw.toLowerCase();
-    if(raw === '') return;
-    e.target.value = '';
-    if(val === '/admin'){
-      if(session && session.is_admin) showView('admin'); else showTxOutput('Keine Berechtigung.');
-      return;
-    }
-    if(val === '/version'){
-      const { data, error } = await db.rpc('get_public_version');
-      showTxOutput(error ? 'Version konnte nicht geladen werden.' : `Aktuelle Version: ${data}`);
-      return;
-    }
-    if(val === '/theme'){
-      showTxOutput(toggleTheme() ? 'Helles Theme aktiviert.' : 'Dunkles Theme aktiviert.');
-      return;
-    }
-    if(val === '/befehle' || val === '/hilfe'){
-      showTxOutput('Verfügbare Transaktionen: /admin · /version · /theme · /befehle');
-      return;
-    }
-    showTxOutput('Unbekannte Transaktion.');
-  });
 
   /* ---------- SYSTEM DIAGNOSTICS ---------- */
   let systemInfo = {};
@@ -936,6 +1004,56 @@
     }catch(e){ /* Fallback bleibt 1.0.0 */ }
   }
 
+  /* ---------- NEWS ---------- */
+  function formatNewsDate(value){
+    if(!value) return 'Ohne Datum';
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? 'Ohne Datum' : d.toLocaleString('de-DE');
+  }
+  async function loadNews(){
+    const list = $('newsList'); if(!list) return;
+    list.innerHTML = '<p class="tmeta">News werden geladen …</p>';
+    try{
+      const rows = await api('news_list');
+      if(!rows || !rows.length){ list.innerHTML = '<div class="empty-state"><p>Derzeit gibt es keine News.</p></div>'; return; }
+      list.innerHTML = rows.map(n => `<article class="news-card"><h3>${escapeHtml(n.title)}</h3><div class="news-meta">Veröffentlicht: ${escapeHtml(formatNewsDate(n.published_at || n.created_at))}</div><div class="news-content">${escapeHtml(n.content)}</div></article>`).join('');
+    }catch(err){ list.innerHTML = '<p class="form-status err">News konnten nicht geladen werden. Bitte Supabase-Funktionen prüfen.</p>'; }
+  }
+  function resetNewsForm(){
+    $('newsForm').reset(); $('newsEditId').value = ''; $('newsPublished').checked = true;
+    $('newsSaveBtn').textContent = 'News veröffentlichen'; $('newsCancelBtn').style.display = 'none'; $('newsAdminStatus').textContent = '';
+  }
+  $('newsForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); if(!(session && session.is_admin)){ alert('Nur Admins dürfen News verwalten.'); return; }
+    const id=$('newsEditId').value, title=$('newsTitle').value.trim(), content=$('newsBody').value.trim(), published=$('newsPublished').checked;
+    const st=$('newsAdminStatus'); st.className='form-status'; st.textContent='Speichere …'; $('newsSaveBtn').disabled=true;
+    try{
+      if(id) await api('admin_news_update',{p_news_id:id,p_title:title,p_content:content,p_published:published});
+      else await api('admin_news_create',{p_title:title,p_content:content,p_published:published});
+      resetNewsForm(); st.className='form-status ok'; st.textContent='✓ News gespeichert.'; await adminLoadNews(); await loadNews();
+    }catch(err){st.className='form-status err';st.textContent='✗ '+errText(err);}
+    finally{$('newsSaveBtn').disabled=false;}
+  });
+  async function adminLoadNews(){
+    if(!(session && session.is_admin)) return; const c=$('adminNewsList'); if(!c)return;
+    c.innerHTML='<p class="tmeta">Lade News …</p>';
+    try{
+      const rows=await api('admin_news_list');
+      if(!rows || !rows.length){c.innerHTML='<p class="tmeta">Noch keine News angelegt.</p>';window._adminNewsCache=[];return;}
+      window._adminNewsCache=rows;
+      c.innerHTML=rows.map(n=>`<div class="news-admin-row"><div><div class="news-admin-title">${escapeHtml(n.title)}</div><div class="news-admin-meta">${n.is_published?'Veröffentlicht':'Entwurf'} · ${escapeHtml(formatNewsDate(n.created_at))}</div></div><button class="mini-btn" onclick="adminEditNews('${escapeHtml(n.id)}')">Bearbeiten</button><button class="del-btn" onclick="adminDeleteNews('${escapeHtml(n.id)}')">Löschen</button></div>`).join('');
+    }catch(err){c.innerHTML='<p class="form-status err">News-Verwaltung konnte nicht geladen werden.</p>';}
+  }
+  function adminEditNews(id){
+    const n=(window._adminNewsCache||[]).find(x=>String(x.id)===String(id));if(!n)return;
+    $('newsEditId').value=n.id;$('newsTitle').value=n.title||'';$('newsBody').value=n.content||'';$('newsPublished').checked=!!n.is_published;
+    $('newsSaveBtn').textContent='Änderungen speichern';$('newsCancelBtn').style.display='inline-block';$('newsAdminStatus').textContent='';$('newsForm').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  async function adminDeleteNews(id){
+    const n=(window._adminNewsCache||[]).find(x=>String(x.id)===String(id));if(!confirm(`News „${n?n.title:id}“ wirklich endgültig löschen?`))return;
+    try{await api('admin_news_delete',{p_news_id:id});await adminLoadNews();await loadNews();}catch(err){alert('News konnte nicht gelöscht werden: '+errText(err));}
+  }
+
   /* ---------- ADMIN ---------- */
   function generatePassword(){
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
@@ -953,6 +1071,7 @@
       adminUsers = users || [];
       renderAdminUsers(adminUsers);
       renderAdminTickets(tickets);
+      await adminLoadNews();
       if(version && version.data) $('versionInput').value = version.data;
     }catch(e){ /* bei abgelaufener Sitzung leitet api() auf den Login */ }
   }
