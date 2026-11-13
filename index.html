@@ -183,23 +183,6 @@
   .empty-state svg{margin-bottom:14px;opacity:0.5;}
   .empty-state p{font-size:13.5px;}
 
-  /* ---------- TRANSACTION BAR ---------- */
-  .tx-bar{max-width:1100px;width:100%;margin:16px auto 0 auto;padding:0 28px;}
-  .tx-input-wrap{display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-family:var(--font-mono);}
-  .tx-input-wrap span{color:var(--text-dim);font-size:12.5px;white-space:nowrap;}
-  .tx-input-wrap input{flex:1;background:transparent;border:none;outline:none;color:var(--gold-bright);font-family:var(--font-mono);font-size:13px;}
-  .tx-input-wrap input::placeholder{color:var(--text-dim);}
-  .tx-output{display:none;max-width:1100px;margin:8px auto 0 auto;padding:0 4px;font-family:var(--font-mono);font-size:12px;color:var(--gold-bright);}
-
-  /* ---------- LIGHT THEME ---------- */
-  body.theme-light{
-    --bg:#f3efe6;--bg-elevated:#ffffff;--glass:rgba(20,15,5,0.035);--glass-strong:rgba(20,15,5,0.06);
-    --border:rgba(180,130,40,0.25);--border-bright:rgba(180,130,40,0.55);
-    --gold:#b3812f;--gold-bright:#8f6521;--text:#241d14;--text-muted:#6b6255;--text-dim:#948a78;
-  }
-  body.theme-light .brand-mark{color:#fff;}
-  body.theme-light .btn{color:#fff2df;}
-
   /* ---------- ADMIN ---------- */
   .admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
   .admin-topbar .tag{font-family:var(--font-mono);font-size:11px;background:rgba(193,85,74,0.15);color:#e37e73;padding:4px 10px;border-radius:999px;}
@@ -255,7 +238,6 @@
     main{padding:0 14px 110px 14px;}
     nav{padding:12px 14px 0 14px;}
     footer{flex-direction:column;gap:4px;padding:10px 14px;text-align:center;}
-    .tx-bar{padding:0 14px;}
     .admin-ticket-row, .user-row{grid-template-columns:1fr;gap:6px;}
     .user-row .uactions{justify-content:flex-start;}
   }
@@ -292,10 +274,6 @@ nav{padding:18px clamp(16px,3vw,36px) 0;gap:8px}
 .tab-btn:hover{background:#fff!important;border-color:#e5e9f1!important;color:#3b4660!important}
 .tab-btn.active{background:#fff!important;color:#4653c5!important;border-color:#e0e4ff!important;box-shadow:0 3px 10px rgba(31,41,75,.06)}
 .tab-btn .count{background:#eef0ff!important;color:#4653c5!important;border-radius:7px!important}
-.tx-bar{margin:16px clamp(16px,3vw,36px) 0;padding:12px 16px;background:#fff;border:1px solid #e5e9f1;border-radius:12px;box-shadow:0 3px 12px rgba(25,35,60,.025)}
-.tx-input-wrap span{color:#667085;font-weight:600}
-.tx-input-wrap input{background:#f8f9fc!important;border:1px solid #e2e6ef!important;border-radius:8px!important;color:#172033!important}
-.tx-output{color:#4653c5}
 main{max-width:1440px;width:100%;margin:0 auto;padding:22px clamp(16px,3vw,36px) 110px}
 .panel{background:#fff;border:1px solid #e5e9f1;border-radius:18px;padding:clamp(18px,2.5vw,28px);box-shadow:0 5px 24px rgba(25,35,60,.045);margin-bottom:18px}
 .panel-head{margin-bottom:22px;gap:16px}
@@ -335,7 +313,6 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
 
-
   /* ---------- NEWS ---------- */
   .news-list{display:grid;gap:14px;}
   .news-card{border:1px solid var(--border);background:var(--glass);border-radius:12px;padding:20px;}
@@ -348,6 +325,29 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
   .news-admin-row .news-admin-meta{font-size:11px;color:var(--text-dim);margin-top:4px;}
   #newsBody{width:100%;min-height:130px;resize:vertical;}
   @media(max-width:720px){.news-admin-row{grid-template-columns:1fr;}}
+
+  /* ---------- IAM (IDENTITY & ACCESS MANAGEMENT) ---------- */
+  .iam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+  .iam-card{border:1px solid var(--border);background:var(--glass);border-radius:13px;padding:18px;display:flex;flex-direction:column;gap:12px;transition:border-color .15s,box-shadow .15s;}
+  .iam-card:hover{border-color:var(--border-bright);box-shadow:0 5px 16px rgba(35,45,90,.06);}
+  .iam-card-top{display:flex;align-items:center;gap:12px;}
+  .iam-avatar{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#6975ed,#4d59cb);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-mono);}
+  .iam-name{font-weight:700;font-size:15px;color:var(--text);line-height:1.25;}
+  .iam-role{font-size:12.5px;color:var(--gold-bright);font-weight:600;margin-top:2px;}
+  .iam-badges{display:flex;flex-wrap:wrap;gap:6px;}
+  .iam-badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:7px;font-family:var(--font-mono);}
+  .iam-badge.access-full{background:rgba(209,67,67,.12);color:#b93131;}
+  .iam-badge.access-elevated{background:rgba(88,101,217,.12);color:#4653c5;}
+  .iam-badge.access-standard{background:rgba(22,132,91,.12);color:#16845b;}
+  .iam-badge.status-active{background:rgba(22,132,91,.12);color:#16845b;}
+  .iam-badge.status-away{background:rgba(183,121,31,.14);color:#9c6514;}
+  .iam-badge.status-inactive{background:rgba(137,146,165,.16);color:#5c6577;}
+  .iam-meta{font-size:12px;color:var(--text-muted);display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--border);padding-top:10px;}
+  .iam-meta span{font-family:var(--font-mono);font-size:11.5px;color:var(--text);}
+  .iam-notes{font-size:12.5px;color:var(--text-muted);line-height:1.5;}
+  .iam-admin-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--border);}
+  .iam-admin-row:last-child{border-bottom:0;}
+  @media(max-width:720px){.iam-admin-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -423,6 +423,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
   <button class="tab-btn" data-view="ticket">✉️ Ticket erstellen</button>
   <button class="tab-btn" data-view="tickets">📋 Meine Tickets <span class="count" id="ticketCount">0</span></button>
   <button class="tab-btn" data-view="news">📰 News</button>
+  <button class="tab-btn" data-view="iam">🔐 IAM <span class="count" id="iamCount">0</span></button>
   <button class="tab-btn" data-view="admin" id="adminTab" style="display:none;">⚙️ Admin</button>
 </nav>
 
@@ -539,6 +540,20 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     </div>
   </section>
 
+  <!-- IAM (IDENTITY AND ACCESS MANAGEMENT) -->
+  <section class="view" id="view-iam">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>IAM — Identity and Access Management</h2>
+          <p>Autorisierte Mitglieder, Rollen und Zugriffsrechte des BYOD Studios IT-Teams.</p>
+        </div>
+        <button class="btn secondary" onclick="loadIam()">↻ Aktualisieren</button>
+      </div>
+      <div id="iamList" class="iam-grid"><p class="tmeta">IT-Team wird geladen …</p></div>
+    </div>
+  </section>
+
   <!-- ADMIN -->
   <section class="view" id="view-admin">
     <div class="panel">
@@ -546,7 +561,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
         <div class="panel-head" style="margin-bottom:0;">
           <div>
             <h2>Admin — Verwaltung</h2>
-            <p>Benutzer anlegen/löschen und Tickets verwalten — Änderungen gelten sofort auf allen Geräten.</p>
+            <p>Benutzer anlegen/löschen, IT-Team (IAM) pflegen und Tickets verwalten — Änderungen gelten sofort auf allen Geräten.</p>
           </div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
@@ -587,6 +602,58 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
           <button class="btn" onclick="adminSaveVersion()">Speichern</button>
           <span class="form-status" id="versionStatus"></span>
         </div>
+      </div>
+
+      <div class="admin-section" id="adminIamSection">
+        <h3>IAM — IT-Team verwalten</h3>
+        <form class="user-form" id="iamForm">
+          <input type="hidden" id="iamEditId">
+          <div class="form-grid">
+            <div class="field">
+              <label for="iamName">Name des IT-Mitglieds</label>
+              <input id="iamName" type="text" required maxlength="120" placeholder="z. B. Louis Schwickert">
+            </div>
+            <div class="field">
+              <label for="iamEmail">Dienstliche E-Mail</label>
+              <input id="iamEmail" type="email" required maxlength="160" placeholder="louis@byod-studios.de">
+            </div>
+            <div class="field">
+              <label for="iamRole">Rolle / Position im IT-Team</label>
+              <input id="iamRole" type="text" required maxlength="120" placeholder="z. B. Lead IT-Administrator">
+            </div>
+            <div class="field">
+              <label for="iamAccess">Berechtigungsstufe (IAM-Level)</label>
+              <select id="iamAccess">
+                <option value="Full Admin (Tier 0)">Full Admin (Tier 0)</option>
+                <option value="System & Network Admin (Tier 1)">System & Network Admin (Tier 1)</option>
+                <option value="Helpdesk & Support (Tier 2)" selected>Helpdesk & Support (Tier 2)</option>
+                <option value="Security & Audit (Read-Only)">Security & Audit (Read-Only)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="iamBadgeId">IAM-Kennung / Kürzel</label>
+              <input id="iamBadgeId" type="text" maxlength="40" placeholder="z. B. IAM-IT-01">
+            </div>
+            <div class="field">
+              <label for="iamStatus">Status</label>
+              <select id="iamStatus">
+                <option value="aktiv">Aktiv</option>
+                <option value="abwesend">Abwesend / Urlaub</option>
+                <option value="inaktiv">Inaktiv / Gesperrt</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="iamNotes">Zuständigkeiten / Notiz (optional)</label>
+              <input id="iamNotes" type="text" maxlength="300" placeholder="z. B. Benutzerverwaltung, Infrastruktur, 2nd-Level Eskalationen">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" id="iamSaveBtn" type="submit">Zum IT-Team hinzufügen</button>
+            <button class="btn secondary" id="iamCancelBtn" type="button" onclick="resetIamForm()" style="display:none;">Bearbeitung abbrechen</button>
+            <span class="form-status" id="iamAdminStatus"></span>
+          </div>
+        </form>
+        <div id="adminIamList" class="admin-table-wrap"></div>
       </div>
 
       <div class="admin-section" id="adminNewsSection">
@@ -636,8 +703,9 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
   emailjs.init({ publicKey: 'n5QGmtP6zsx0JNJuC' });
 
   const TOKEN_KEY = 'byod_token';
-  let session = null;      // { token, email, display_name, is_admin, must_change_password }
-  let adminUsers = [];     // Cache für Lösch-/Reset-Dialoge
+  const IAM_FALLBACK_KEY = 'byod_iam_members_fallback';
+  let session = null;
+  let adminUsers = [];
   let pwForced = false;
 
   const $ = (id) => document.getElementById(id);
@@ -660,7 +728,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     return 'Fehler: ' + (m || 'Verbindungsproblem');
   }
 
-  /* ---------- API-HELFER (hängt das Session-Token automatisch an) ---------- */
+  /* ---------- API-HELFER ---------- */
   async function api(fn, args = {}){
     const { data, error } = await db.rpc(fn, { p_token: session && session.token, ...args });
     if(error){
@@ -706,6 +774,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     runDiagnostics();
     loadFooterVersion();
     refreshTicketCount();
+    loadIam();
   }
 
   /* ---------- 5-MINUTEN-SITZUNGSTIMER ---------- */
@@ -748,8 +817,6 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     sessionTimerInterval = setInterval(updateSessionTimer, 250);
   }
 
-  /* Beim Neuladen oder Verlassen der Seite lokal sofort sperren.
-     Der keepalive-Aufruf versucht zusätzlich, das Token serverseitig abzumelden. */
   window.addEventListener('pagehide', () => {
     const token = session && session.token;
     stopSessionTimer();
@@ -836,6 +903,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     $('view-' + name).classList.add('active');
     if(name === 'tickets') renderTicketsList();
     if(name === 'news') loadNews();
+    if(name === 'iam') loadIam();
     if(name === 'admin') adminRefresh();
   }
   document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
@@ -882,7 +950,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
           return 'Windows (Version älter als 10)';
         }
         if(hints.platform) return hints.platform + (hints.platformVersion ? ' ' + hints.platformVersion : '');
-      }catch(e){ /* fällt auf Regex-Erkennung zurück */ }
+      }catch(e){}
     }
     if(/Windows NT 10\.0/.test(ua)) return 'Windows 10 / 11 (genau nicht bestimmbar)';
     if(/Windows NT 6\.3/.test(ua)) return 'Windows 8.1';
@@ -953,7 +1021,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     });
   });
 
-  /* ---------- TICKETS (Konto-basiert, live von Supabase) ---------- */
+  /* ---------- TICKETS ---------- */
   function generateTicketId(){
     const d = new Date();
     const datePart = d.getFullYear().toString() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
@@ -1001,7 +1069,7 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     try{
       const { data, error } = await db.rpc('get_public_version');
       if(!error && data) $('footerVersion').textContent = data;
-    }catch(e){ /* Fallback bleibt 1.0.0 */ }
+    }catch(e){}
   }
 
   /* ---------- NEWS ---------- */
@@ -1054,6 +1122,198 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
     try{await api('admin_news_delete',{p_news_id:id});await adminLoadNews();await loadNews();}catch(err){alert('News konnte nicht gelöscht werden: '+errText(err));}
   }
 
+  /* ---------- IAM (IDENTITY AND ACCESS MANAGEMENT) ---------- */
+  function getInitials(name){
+    const parts = (name || 'IT').trim().split(/\s+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : (parts[0].slice(0, 2)).toUpperCase();
+  }
+  function getAccessBadgeClass(level){
+    const l = (level || '').toLowerCase();
+    if(l.includes('tier 0') || l.includes('full')) return 'access-full';
+    if(l.includes('tier 1') || l.includes('system')) return 'access-elevated';
+    return 'access-standard';
+  }
+  function getStatusLabel(status){
+    if(status === 'abwesend') return 'Abwesend';
+    if(status === 'inaktiv') return 'Inaktiv';
+    return 'Aktiv';
+  }
+  function getStatusBadgeClass(status){
+    if(status === 'abwesend') return 'status-away';
+    if(status === 'inaktiv') return 'status-inactive';
+    return 'status-active';
+  }
+
+  function readIamFallback(){
+    try{ return JSON.parse(localStorage.getItem(IAM_FALLBACK_KEY) || '[]'); }catch(e){ return []; }
+  }
+  function writeIamFallback(rows){
+    try{ localStorage.setItem(IAM_FALLBACK_KEY, JSON.stringify(rows)); }catch(e){}
+  }
+
+  async function fetchIamRows(){
+    try{
+      const rows = await api('iam_list');
+      return Array.isArray(rows) ? rows : [];
+    }catch(err){
+      // Fallback, falls die Supabase-RPCs für IAM noch nicht angelegt wurden
+      return readIamFallback();
+    }
+  }
+
+  async function loadIam(){
+    const list = $('iamList');
+    if(!list) return;
+    list.innerHTML = '<p class="tmeta">IT-Team wird geladen …</p>';
+    const rows = await fetchIamRows();
+    if($('iamCount')) $('iamCount').textContent = rows.length;
+    if(!rows.length){
+      list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><p>Derzeit sind keine Mitglieder im IT-Team hinterlegt.</p></div>';
+      return;
+    }
+    list.innerHTML = rows.map(m => `
+      <article class="iam-card">
+        <div class="iam-card-top">
+          <div class="iam-avatar">${escapeHtml(getInitials(m.name))}</div>
+          <div>
+            <div class="iam-name">${escapeHtml(m.name)}</div>
+            <div class="iam-role">${escapeHtml(m.role)}</div>
+          </div>
+        </div>
+        <div class="iam-badges">
+          <span class="iam-badge ${getAccessBadgeClass(m.access_level)}">${escapeHtml(m.access_level || 'Helpdesk & Support (Tier 2)')}</span>
+          <span class="iam-badge ${getStatusBadgeClass(m.status)}">${escapeHtml(getStatusLabel(m.status))}</span>
+          ${m.badge_id ? `<span class="iam-badge" style="background:#f1f3ff;color:#4653c5;">${escapeHtml(m.badge_id)}</span>` : ''}
+        </div>
+        ${m.notes ? `<div class="iam-notes">${escapeHtml(m.notes)}</div>` : ''}
+        <div class="iam-meta">
+          <div>E-Mail: <span>${escapeHtml(m.email)}</span></div>
+          <div>Eingetragen: <span>${escapeHtml(formatNewsDate(m.created_at))}</span></div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function resetIamForm(){
+    $('iamForm').reset();
+    $('iamEditId').value = '';
+    $('iamAccess').value = 'Helpdesk & Support (Tier 2)';
+    $('iamStatus').value = 'aktiv';
+    $('iamSaveBtn').textContent = 'Zum IT-Team hinzufügen';
+    $('iamCancelBtn').style.display = 'none';
+    $('iamAdminStatus').textContent = '';
+  }
+
+  $('iamForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(!(session && session.is_admin)){ alert('Nur Admins dürfen das IT-Team verwalten.'); return; }
+    const id = $('iamEditId').value;
+    const payload = {
+      name: $('iamName').value.trim(),
+      email: $('iamEmail').value.trim().toLowerCase(),
+      role: $('iamRole').value.trim(),
+      access_level: $('iamAccess').value,
+      badge_id: $('iamBadgeId').value.trim(),
+      status: $('iamStatus').value,
+      notes: $('iamNotes').value.trim()
+    };
+    const st = $('iamAdminStatus');
+    st.className = 'form-status';
+    st.textContent = 'Speichere …';
+    $('iamSaveBtn').disabled = true;
+
+    try{
+      if(id){
+        await api('admin_iam_update', {
+          p_iam_id: id, p_name: payload.name, p_email: payload.email, p_role: payload.role,
+          p_access_level: payload.access_level, p_badge_id: payload.badge_id, p_status: payload.status, p_notes: payload.notes
+        });
+      }else{
+        await api('admin_iam_create', {
+          p_name: payload.name, p_email: payload.email, p_role: payload.role,
+          p_access_level: payload.access_level, p_badge_id: payload.badge_id, p_status: payload.status, p_notes: payload.notes
+        });
+      }
+      resetIamForm();
+      st.className = 'form-status ok';
+      st.textContent = '✓ IT-Teammitglied gespeichert.';
+      await adminLoadIam();
+      await loadIam();
+    }catch(err){
+      // Fallback-Speicherung im Browser, falls Supabase-RPCs noch fehlen
+      const rows = readIamFallback();
+      if(id){
+        const idx = rows.findIndex(x => String(x.id) === String(id));
+        if(idx !== -1) rows[idx] = { ...rows[idx], ...payload };
+      }else{
+        rows.unshift({ id: 'iam-' + Date.now(), ...payload, created_at: new Date().toISOString() });
+      }
+      writeIamFallback(rows);
+      resetIamForm();
+      st.className = 'form-status ok';
+      st.textContent = '✓ Gespeichert (lokaler IAM-Speicher aktiv — Supabase-SQL bei Bedarf einspielen).';
+      await adminLoadIam();
+      await loadIam();
+    }finally{
+      $('iamSaveBtn').disabled = false;
+    }
+  });
+
+  async function adminLoadIam(){
+    if(!(session && session.is_admin)) return;
+    const c = $('adminIamList');
+    if(!c) return;
+    c.innerHTML = '<p class="tmeta">Lade IT-Team …</p>';
+    const rows = await fetchIamRows();
+    window._adminIamCache = rows;
+    if(!rows.length){
+      c.innerHTML = '<p class="tmeta">Noch keine IT-Teammitglieder eingetragen.</p>';
+      return;
+    }
+    c.innerHTML = rows.map(m => `
+      <div class="iam-admin-row">
+        <div>
+          <div style="font-weight:600;">${escapeHtml(m.name)} <span style="font-weight:400;color:var(--text-muted);">(${escapeHtml(m.email)})</span></div>
+          <div class="tmeta">${escapeHtml(m.role)} · ${escapeHtml(m.access_level || '')} · Status: ${escapeHtml(getStatusLabel(m.status))}${m.badge_id ? ' · ' + escapeHtml(m.badge_id) : ''}</div>
+        </div>
+        <button class="mini-btn" onclick="adminEditIam('${escapeHtml(m.id)}')">Bearbeiten</button>
+        <button class="del-btn" onclick="adminDeleteIam('${escapeHtml(m.id)}')">Entfernen</button>
+      </div>
+    `).join('');
+  }
+
+  function adminEditIam(id){
+    const m = (window._adminIamCache || []).find(x => String(x.id) === String(id));
+    if(!m) return;
+    $('iamEditId').value = m.id;
+    $('iamName').value = m.name || '';
+    $('iamEmail').value = m.email || '';
+    $('iamRole').value = m.role || '';
+    $('iamAccess').value = m.access_level || 'Helpdesk & Support (Tier 2)';
+    $('iamBadgeId').value = m.badge_id || '';
+    $('iamStatus').value = m.status || 'aktiv';
+    $('iamNotes').value = m.notes || '';
+    $('iamSaveBtn').textContent = 'Änderungen speichern';
+    $('iamCancelBtn').style.display = 'inline-block';
+    $('iamAdminStatus').textContent = '';
+    $('iamForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function adminDeleteIam(id){
+    const m = (window._adminIamCache || []).find(x => String(x.id) === String(id));
+    if(!confirm(`„${m ? m.name : id}“ wirklich aus dem IT-Team (IAM) entfernen?`)) return;
+    try{
+      await api('admin_iam_delete', { p_iam_id: id });
+    }catch(err){
+      const rows = readIamFallback().filter(x => String(x.id) !== String(id));
+      writeIamFallback(rows);
+    }
+    await adminLoadIam();
+    await loadIam();
+  }
+
   /* ---------- ADMIN ---------- */
   function generatePassword(){
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
@@ -1071,9 +1331,10 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
       adminUsers = users || [];
       renderAdminUsers(adminUsers);
       renderAdminTickets(tickets);
+      await adminLoadIam();
       await adminLoadNews();
       if(version && version.data) $('versionInput').value = version.data;
-    }catch(e){ /* bei abgelaufener Sitzung leitet api() auf den Login */ }
+    }catch(e){}
   }
 
   function renderAdminUsers(users){
@@ -1206,20 +1467,18 @@ button:focus-visible{outline:3px solid rgba(88,101,217,.25);outline-offset:2px}
         p_priority: selectedPriority, p_subject: subject, p_message: message, p_diagnostics: diagText
       });
 
-      // E-Mail an den Admin (optional)
       try{
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE_ID, {
           ticket_id: ticketId, name, email, category, priority: selectedPriority,
           subject, message, diagnostics: diagText
         });
-      }catch(mailErr){ /* Ticket ist trotzdem gespeichert */ }
+      }catch(mailErr){}
 
-      // Bestätigungs-E-Mail an den Kunden (optional)
       try{
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CUSTOMER_TEMPLATE_ID, {
           to_email: email, name, ticket_id: ticketId, subject, message
         });
-      }catch(customerMailErr){ /* Ticket ist trotzdem gespeichert */ }
+      }catch(customerMailErr){}
 
       statusEl.className = 'form-status ok';
       statusEl.textContent = `✓ Ticket ${ticketId} wurde gesendet.`;
@@ -1253,7 +1512,7 @@ Louis vom BYODUserHelpDesk`;
     }
   });
 
-  /* ---------- START: Nach jedem Neuladen erneut anmelden ---------- */
+  /* ---------- START ---------- */
   (async function init(){
     const t = localStorage.getItem(TOKEN_KEY);
     localStorage.removeItem(TOKEN_KEY);
